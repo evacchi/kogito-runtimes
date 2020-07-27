@@ -154,7 +154,7 @@
     <!-- container images for testing -->
     <container.image.infinispan>quay.io/infinispan/server:${version.org.infinispan.image}</container.image.infinispan>
   </properties>
-  SerializationHelper
+  
   <!-- distributionManagement section -->
   <distributionManagement>
     <repository>
