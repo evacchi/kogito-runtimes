@@ -147,6 +147,7 @@
     <module>archetypes</module>
     <module>grafana-api</module>
     <module>integration-tests</module>
+    <module>jenkins-tests</module>
   </modules>
 
   <profiles>
