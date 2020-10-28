@@ -55,6 +55,7 @@ import org.kie.kogito.codegen.DefaultResourceGeneratorFactory;
 import org.kie.kogito.codegen.GeneratedFile;
 import org.kie.kogito.codegen.GeneratedFile.Type;
 import org.kie.kogito.codegen.ResourceGeneratorFactory;
+import org.kie.kogito.codegen.di.CDIDependencyInjectionAnnotator;
 import org.kie.kogito.codegen.di.DependencyInjectionAnnotator;
 import org.kie.kogito.codegen.io.CollectedResource;
 import org.kie.kogito.codegen.process.config.ProcessConfigGenerator;
@@ -193,7 +194,7 @@ public class ProcessCodegen extends AbstractGenerator {
 
         //FIXME: once all endpoint generators are implemented it should be changed to ResourceGeneratorFactory, to
         // consider Spring generators.
-        resourceGeneratorFactory = new DefaultResourceGeneratorFactory();
+        resourceGeneratorFactory = new ResourceGeneratorFactory();
     }
 
     public static String defaultWorkItemHandlerConfigClass(String packageName) {
@@ -455,9 +456,12 @@ public class ProcessCodegen extends AbstractGenerator {
             storeFile(Type.REST, ceGenerator.generatedFilePath(), ceGenerator.generate());
         }
 
-        final TopicsInformationResourceGenerator topicsGenerator =
-                new TopicsInformationResourceGenerator(processExecutableModelGenerators, annotator, addonsConfig);
-        storeFile(Type.REST, topicsGenerator.generatedFilePath(), topicsGenerator.generate());
+        //FIXME: this causes error with spring, need to add a template
+        if (annotator instanceof CDIDependencyInjectionAnnotator) {
+            final TopicsInformationResourceGenerator topicsGenerator =
+                    new TopicsInformationResourceGenerator(processExecutableModelGenerators, annotator, addonsConfig);
+            storeFile(Type.REST, topicsGenerator.generatedFilePath(), topicsGenerator.generate());
+        }
 
         for (ProcessInstanceGenerator pi : pis) {
             storeFile(Type.PROCESS_INSTANCE, pi.generatedFilePath(), pi.generate());
