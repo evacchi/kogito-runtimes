@@ -1,4 +1,5 @@
-package org.kie.kogito.app;
+package org.kie.kogito.app;sudo dnf upgrade --refresh
+
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cloudevents.CloudEvent;

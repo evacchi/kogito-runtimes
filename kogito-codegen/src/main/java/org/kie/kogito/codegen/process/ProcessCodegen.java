@@ -449,19 +449,20 @@ public class ProcessCodegen extends AbstractGenerator {
             });
         }
 
-        if (this.addonsConfig.useKnativeEventing()) {
-            LOGGER.info("Knative Eventing addon enabled, generating CloudEvent HTTP listener");
-            final CloudEventsResourceGenerator ceGenerator =
-                    new CloudEventsResourceGenerator(processExecutableModelGenerators, annotator);
-            storeFile(Type.REST, ceGenerator.generatedFilePath(), ceGenerator.generate());
-        }
-
-        //FIXME: this causes error with spring, need to add a template
+        //FIXME: not supported on springboot, need to add a template
         if (annotator instanceof CDIDependencyInjectionAnnotator) {
+            if (this.addonsConfig.useKnativeEventing()) {
+                LOGGER.info("Knative Eventing addon enabled, generating CloudEvent HTTP listener");
+                final CloudEventsResourceGenerator ceGenerator =
+                        new CloudEventsResourceGenerator(processExecutableModelGenerators, annotator);
+                storeFile(Type.REST, ceGenerator.generatedFilePath(), ceGenerator.generate());
+            }
+
             final TopicsInformationResourceGenerator topicsGenerator =
                     new TopicsInformationResourceGenerator(processExecutableModelGenerators, annotator, addonsConfig);
             storeFile(Type.REST, topicsGenerator.generatedFilePath(), topicsGenerator.generate());
         }
+        //END FIXME
 
         for (ProcessInstanceGenerator pi : pis) {
             storeFile(Type.PROCESS_INSTANCE, pi.generatedFilePath(), pi.generate());
