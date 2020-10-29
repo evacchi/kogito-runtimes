@@ -52,7 +52,7 @@ class OASTest extends BaseRestTest {
     @Test
     public void testOASdmnDefinitions() {
         RestAssured.given()
-                   .get("/docs/dmnDefinitions.json")
+                   .get("/dmnDefinitions.json")
                    .then()
                    .statusCode(200)
                    .body("definitions", aMapWithSize(greaterThan(0)));
