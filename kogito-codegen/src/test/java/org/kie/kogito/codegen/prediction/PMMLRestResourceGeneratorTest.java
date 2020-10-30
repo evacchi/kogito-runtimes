@@ -43,7 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.kie.kogito.codegen.prediction.PMMLRestResourceGenerator.TEMPLATE_JAVA;
+import static org.kie.kogito.codegen.prediction.PMMLRestResourceGenerator.CDI_TEMPLATE;
 import static org.kie.pmml.commons.utils.KiePMMLModelUtils.getSanitizedClassName;
 import static org.mockito.Mockito.mock;
 
@@ -72,7 +72,7 @@ class PMMLRestResourceGeneratorTest {
     }
 
     private static ClassOrInterfaceDeclaration getClassOrInterfaceDeclaration() {
-        CompilationUnit clazz = parse(PMMLRestResourceGeneratorTest.class.getResourceAsStream(TEMPLATE_JAVA));
+        CompilationUnit clazz = parse(PMMLRestResourceGeneratorTest.class.getResourceAsStream(CDI_TEMPLATE));
         clazz.setPackageDeclaration(CodegenStringUtil.escapeIdentifier("IDENTIFIER"));
         return clazz
                 .findFirst(ClassOrInterfaceDeclaration.class)
