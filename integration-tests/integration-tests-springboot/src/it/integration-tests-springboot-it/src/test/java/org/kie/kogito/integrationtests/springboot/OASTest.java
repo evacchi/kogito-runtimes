@@ -27,6 +27,7 @@ import io.restassured.RestAssured;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.kie.kogito.testcontainers.springboot.InfinispanSpringBootTestResource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.ContextConfiguration;
@@ -49,10 +50,13 @@ class OASTest extends BaseRestTest {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
     }
 
+    @Value("${spring.mvc.servlet.path}")
+    private String path;
+
     @Test
     public void testOASdmnDefinitions() {
         RestAssured.given()
-                   .get("/dmnDefinitions.json")
+                   .get(path + "/dmnDefinitions.json")
                    .then()
                    .statusCode(200)
                    .body("definitions", aMapWithSize(greaterThan(0)));
