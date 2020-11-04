@@ -62,6 +62,7 @@ import org.kie.kogito.codegen.process.config.ProcessConfigGenerator;
 import org.kie.kogito.codegen.process.events.CloudEventsMessageProducerGenerator;
 import org.kie.kogito.codegen.process.events.CloudEventsResourceGenerator;
 import org.kie.kogito.codegen.process.events.TopicsInformationResourceGenerator;
+import org.kie.kogito.conf.feature.FeatureToggle;
 import org.kie.kogito.rules.units.UndefinedGeneratedRuleUnitVariable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -194,7 +195,8 @@ public class ProcessCodegen extends AbstractGenerator {
 
         //FIXME: once all endpoint generators are implemented it should be changed to ResourceGeneratorFactory, to
         // consider Spring generators.
-        resourceGeneratorFactory = new ResourceGeneratorFactory();
+        resourceGeneratorFactory = new FeatureToggle().isEnabled(FeatureToggle.ENDPOINTS_SPRING_API_ENABLED) ?
+                new ResourceGeneratorFactory() : new DefaultResourceGeneratorFactory();
     }
 
     public static String defaultWorkItemHandlerConfigClass(String packageName) {

@@ -137,7 +137,7 @@
                 <profile>spring-web</profile>
               </profiles>
               <properties>
-                <SPRING_WEB_API_ENABLED>true</SPRING_WEB_API_ENABLED>
+                <endpoints.spring.api.enabled>true</endpoints.spring.api.enabled>
                 <spring.mvc.servlet.path></spring.mvc.servlet.path>
               </properties>
             </configuration>

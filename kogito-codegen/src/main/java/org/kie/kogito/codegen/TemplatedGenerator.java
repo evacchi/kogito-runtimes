@@ -25,6 +25,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import org.kie.kogito.codegen.di.CDIDependencyInjectionAnnotator;
 import org.kie.kogito.codegen.di.DependencyInjectionAnnotator;
 import org.kie.kogito.codegen.di.SpringDependencyInjectionAnnotator;
+import org.kie.kogito.conf.feature.FeatureToggle;
 
 import static com.github.javaparser.StaticJavaParser.parse;
 
@@ -39,6 +40,7 @@ public class TemplatedGenerator {
 
     private DependencyInjectionAnnotator annotator;
     private final String targetTypeName;
+    private FeatureToggle featureToggle;
 
     public TemplatedGenerator(
             String packageName,
@@ -62,6 +64,7 @@ public class TemplatedGenerator {
         this.resourceCdi = resourceCdi;
         this.resourceSpring = resourceSpring;
         this.resourceDefault = resourceDefault;
+        this.featureToggle = new FeatureToggle();
     }
 
     public TemplatedGenerator(
@@ -121,7 +124,9 @@ public class TemplatedGenerator {
             } else {
                 return resourceDefault;
             }
-        } else if (annotator instanceof CDIDependencyInjectionAnnotator) {
+        } else if (annotator instanceof CDIDependencyInjectionAnnotator
+                //can be removed after spring apis are completed
+        || (targetTypeName.contains("Resource") && !featureToggle.isEnabled(FeatureToggle.ENDPOINTS_SPRING_API_ENABLED))) {
             return resourceCdi;
         } else if (annotator instanceof SpringDependencyInjectionAnnotator) {
             return resourceSpring;

@@ -44,19 +44,21 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-  <dependencies>
 
+  <dependencies>
     <!-- FIXME: spring-boot-starter-web should be the default, it should be removed the resteasy-spring-boot-starter
     after all the Endpoint generation are completed to use Spring Web API -->
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.boot</groupId>-->
+<!--      <artifactId>spring-boot-starter-web</artifactId>-->
+<!--    </dependency>-->
+
+    <!-- this should be removed when all endpoints for spring have been migrated to spring-web apis -->
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-spring-boot-starter</artifactId>
     </dependency>
 
-<!--    <dependency>-->
-<!--      <groupId>org.jboss.resteasy</groupId>-->
-<!--      <artifactId>resteasy-spring-boot-starter</artifactId>-->
-<!--    </dependency>-->
     <dependency>
       <groupId>org.kie.kogito</groupId>
       <artifactId>kogito-api</artifactId>

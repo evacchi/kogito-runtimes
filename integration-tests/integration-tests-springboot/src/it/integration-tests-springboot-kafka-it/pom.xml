@@ -232,7 +232,7 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
                             <systemProperties>
-                                <SPRING_WEB_API_ENABLED>${SPRING_WEB_API_ENABLED}</SPRING_WEB_API_ENABLED>
+                                <endpoints.spring.api.enabled>${endpoints.spring.api.enabled}</endpoints.spring.api.enabled>
                                 <spring.mvc.servlet.path>${spring.mvc.servlet.path}</spring.mvc.servlet.path>
                             </systemProperties>
                         </configuration>
