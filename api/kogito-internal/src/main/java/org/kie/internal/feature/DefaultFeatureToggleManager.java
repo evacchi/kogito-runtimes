@@ -14,9 +14,15 @@
  *  limitations under the License.
  */
 
-package org.kie.kogito.conf.feature;
+package org.kie.internal.feature;
 
-public interface FeatureToggleManager {
+/**
+ * Default implementation of the {@link FeatureToggleManager} based on system properties.
+ */
+public class DefaultFeatureToggleManager implements FeatureToggleManager {
 
-    boolean isEnabled(String featureKey);
+    @Override
+    public boolean isEnabled(String featureKey) {
+        return Boolean.parseBoolean(System.getProperty(featureKey, Boolean.FALSE.toString()));
+    }
 }

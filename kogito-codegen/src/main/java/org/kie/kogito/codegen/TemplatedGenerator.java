@@ -25,7 +25,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import org.kie.kogito.codegen.di.CDIDependencyInjectionAnnotator;
 import org.kie.kogito.codegen.di.DependencyInjectionAnnotator;
 import org.kie.kogito.codegen.di.SpringDependencyInjectionAnnotator;
-import org.kie.kogito.conf.feature.FeatureToggle;
+import org.kie.internal.feature.FeatureToggle;
 
 import static com.github.javaparser.StaticJavaParser.parse;
 

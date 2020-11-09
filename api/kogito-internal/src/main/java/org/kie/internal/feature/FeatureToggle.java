@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package org.kie.kogito.conf.feature;
+package org.kie.internal.feature;
 
 /**
  * Centralize the features under development or not completed to be released, that could be enabled or disabled during
