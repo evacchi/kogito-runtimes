@@ -89,7 +89,7 @@ public class DecisionRestResourceGenerator {
         String classPrefix = StringUtils.ucFirst(decisionName);
         this.resourceClazzName = classPrefix + "Resource";
         this.relativePath = packageName.replace(".", "/") + "/" + resourceClazzName + ".java";
-        generator = new TemplatedGenerator(packageName, "DecisionRestResource",CDI_TEMPLATE, SPRING_TEMPLATE);
+        generator = new TemplatedGenerator(packageName, "DecisionRestResource",CDI_TEMPLATE, SPRING_TEMPLATE, CDI_TEMPLATE);
     }
 
     public String generate() {
