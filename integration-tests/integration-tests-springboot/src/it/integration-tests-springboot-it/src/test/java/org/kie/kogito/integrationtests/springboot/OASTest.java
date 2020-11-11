@@ -32,11 +32,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.ContextConfiguration;
 
-
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-
 
 import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.greaterThan;
@@ -50,15 +48,12 @@ class OASTest extends BaseRestTest {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
     }
 
-    @Value("${spring.mvc.servlet.path}")
-    private String path;
-
     @Test
     public void testOASdmnDefinitions() {
         RestAssured.given()
-                   .get(path + "/dmnDefinitions.json")
-                   .then()
-                   .statusCode(200)
-                   .body("definitions", aMapWithSize(greaterThan(0)));
+                .get("/dmnDefinitions.json")
+                .then()
+                .statusCode(200)
+                .body("definitions", aMapWithSize(greaterThan(0)));
     }
 }
