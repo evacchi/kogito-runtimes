@@ -84,7 +84,7 @@ public class DecisionRestResourceGenerator {
         this.packageName = CodegenStringUtil.escapeIdentifier(model.getNamespace());
         this.decisionId = model.getDefinitions().getId();
         this.decisionName = CodegenStringUtil.escapeIdentifier(model.getName());
-        this.nameURL = URLEncoder.encode(model.getName()).replace("+", "%20");
+        this.nameURL = URLEncoder.encode(model.getName()).replace("+", " ");
         this.appCanonicalName = appCanonicalName;
         String classPrefix = StringUtils.ucFirst(decisionName);
         this.resourceClazzName = classPrefix + "Resource";

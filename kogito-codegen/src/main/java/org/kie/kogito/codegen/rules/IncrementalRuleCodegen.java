@@ -70,6 +70,7 @@ import org.kie.kogito.codegen.ConfigGenerator;
 import org.kie.kogito.codegen.GeneratorContext;
 import org.kie.kogito.codegen.KogitoPackageSources;
 import org.kie.kogito.codegen.DashboardGeneratedFileUtils;
+import org.kie.kogito.codegen.di.CDIDependencyInjectionAnnotator;
 import org.kie.kogito.codegen.di.DependencyInjectionAnnotator;
 import org.kie.kogito.codegen.io.CollectedResource;
 import org.kie.kogito.codegen.rules.config.NamedRuleUnitConfig;
@@ -317,7 +318,7 @@ public class IncrementalRuleCodegen extends AbstractGenerator {
         RuleUnitHelper ruleUnitHelper = new RuleUnitHelper();
 
         //TODO: use template to support spring
-        if (annotator != null) {
+        if (annotator != null && annotator instanceof CDIDependencyInjectionAnnotator) {
             generatedFiles.add( new org.kie.kogito.codegen.GeneratedFile( org.kie.kogito.codegen.GeneratedFile.Type.JSON_MAPPER,
                     packageName.replace('.', '/') + "/KogitoObjectMapper.java", annotator.objectMapperInjectorSource(packageName) ) );
         }
