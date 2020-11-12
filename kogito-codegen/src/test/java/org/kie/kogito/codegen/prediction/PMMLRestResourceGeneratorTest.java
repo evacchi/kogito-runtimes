@@ -33,6 +33,7 @@ import org.drools.core.util.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.kie.dmn.feel.codegen.feel11.CodegenStringUtil;
+import org.kie.kogito.codegen.di.CDIDependencyInjectionAnnotator;
 import org.kie.kogito.codegen.di.DependencyInjectionAnnotator;
 import org.kie.pmml.commons.model.KiePMMLModel;
 
@@ -88,7 +89,7 @@ class PMMLRestResourceGeneratorTest {
 
     @Test
     void generateWithDependencyInjection() {
-        String retrieved = pmmlRestResourceGenerator.withDependencyInjection(mock(DependencyInjectionAnnotator.class)).generate();
+        String retrieved = pmmlRestResourceGenerator.withDependencyInjection(new CDIDependencyInjectionAnnotator()).generate();
         commonEvaluateGenerate(retrieved);
         String expected = "Application application;";
         assertTrue(retrieved.contains(expected));
@@ -105,7 +106,7 @@ class PMMLRestResourceGeneratorTest {
     @Test
     void getNameURL() {
         String classPrefix = getSanitizedClassName(KIE_PMML_MODEL.getName());
-        String expected = URLEncoder.encode(classPrefix).replaceAll("\\+", "%20");
+        String expected = URLEncoder.encode(classPrefix).replaceAll("\\+", " ");
         assertEquals(expected, pmmlRestResourceGenerator.getNameURL());
     }
 
@@ -157,7 +158,7 @@ class PMMLRestResourceGeneratorTest {
         pmmlRestResourceGenerator.setPathValue(template);
         try {
             String classPrefix = getSanitizedClassName(KIE_PMML_MODEL.getName());
-            String expected = URLEncoder.encode(classPrefix).replaceAll("\\+", "%20");
+            String expected = URLEncoder.encode(classPrefix).replaceAll("\\+", " ");
             assertEquals(expected, retrieved.getMemberValue().asStringLiteralExpr().asString());
         } catch (Exception e) {
             fail(e);
