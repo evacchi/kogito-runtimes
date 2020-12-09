@@ -15,10 +15,17 @@
 
 package org.kie.kogito.rules;
 
-import org.kie.kogito.internal.runtime.KieSession;
+import org.kie.api.KieBase;
+import org.kie.api.runtime.KieSession;
 
 public interface KieRuntimeBuilder {
-   
+    KieBase getKieBase();
+    KieBase getKieBase(String name);
+
+    default KieBase getKieBase(Class<? extends RuleUnitData> ruleUnit) {
+        return getKieBase(ruleUnit.getName().replace( '.', '$' ) + "KieBase");
+    }
+
     KieSession newKieSession();
     KieSession newKieSession(String sessionName);
     KieSession newKieSession(String sessionName, RuleConfig ruleConfig);

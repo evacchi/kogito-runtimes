@@ -16,8 +16,6 @@
 
 package org.kie.kogito.codegen.rules;
 
-import java.util.Collection;
-
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.Modifier;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
@@ -29,9 +27,9 @@ import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
 import org.kie.internal.ruleunit.RuleUnitVariable;
 import org.kie.kogito.codegen.FileGenerator;
-import org.kie.kogito.internal.ruleunit.RuleUnitDescription;
 import org.kie.kogito.rules.SingletonStore;
 import org.kie.kogito.rules.units.AbstractRuleUnitDescription;
+import org.kie.kogito.rules.units.KogitoRuleUnitVariable;
 
 public class RuleUnitDTOSourceClass implements FileGenerator {
 
@@ -70,7 +68,7 @@ public class RuleUnitDTOSourceClass implements FileGenerator {
         BlockStmt supplierBlock = supplier.createBody();
         supplierBlock.addStatement(String.format("%s unit = new %s();", ruleUnit.getSimpleName(), ruleUnit.getSimpleName()));
 
-        for (RuleUnitVariable unitVarDeclaration : ruleUnit.getUnitVarDeclarations()) {
+        for (KogitoRuleUnitVariable unitVarDeclaration : ruleUnit.getUnitVarDeclarations()) {
             FieldProcessor fieldProcessor = new FieldProcessor(unitVarDeclaration, ruleUnitHelper );
             FieldDeclaration field = fieldProcessor.createField();
             supplierBlock.addStatement(fieldProcessor.fieldInitializer());
@@ -86,13 +84,13 @@ public class RuleUnitDTOSourceClass implements FileGenerator {
 
     private static class FieldProcessor {
 
-        final RuleUnitVariable ruleUnitVariable;
+        final KogitoRuleUnitVariable ruleUnitVariable;
         final boolean isDataSource;
         final RuleUnitHelper ruleUnitHelper;
         final boolean isSingletonStore;
         private String genericType;
 
-        public FieldProcessor(RuleUnitVariable ruleUnitVariable, RuleUnitHelper ruleUnitHelper ) {
+        public FieldProcessor(KogitoRuleUnitVariable ruleUnitVariable, RuleUnitHelper ruleUnitHelper ) {
             this.ruleUnitVariable = ruleUnitVariable;
             this.isDataSource = ruleUnitVariable.isDataSource();
             this.ruleUnitHelper = ruleUnitHelper;

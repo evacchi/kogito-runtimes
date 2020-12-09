@@ -18,9 +18,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.kie.api.management.GAV;
 import org.kie.kogito.decision.DecisionModelType;
 import org.kie.kogito.internal.decision.DecisionModelResource;
-import org.kie.kogito.internal.management.GAV;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +47,7 @@ public class DefaultDecisionModelResource implements DecisionModelResource {
     }
 
     @Override
-    public GAV getGav() {
+    public org.kie.api.management.GAV getGav() {
         return gav;
     }
 

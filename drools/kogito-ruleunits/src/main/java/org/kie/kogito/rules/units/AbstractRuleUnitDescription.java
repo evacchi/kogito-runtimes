@@ -21,13 +21,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import org.kie.kogito.internal.ruleunit.RuleUnitDescription;
-import org.kie.kogito.internal.ruleunit.RuleUnitVariable;
+import org.kie.internal.ruleunit.RuleUnitDescription;
+import org.kie.internal.ruleunit.RuleUnitVariable;
 import org.kie.kogito.rules.RuleUnitConfig;
 
 public abstract class AbstractRuleUnitDescription implements RuleUnitDescription {
 
-    private final Map<String, RuleUnitVariable> varDeclarations = new HashMap<>();
+    private final Map<String, KogitoRuleUnitVariable> varDeclarations = new HashMap<>();
     private RuleUnitConfig config;
 
     @Override
@@ -47,9 +47,8 @@ public abstract class AbstractRuleUnitDescription implements RuleUnitDescription
         return varDeclarations.containsKey(name);
     }
 
-    @Override
-    public RuleUnitVariable getVar(String name) {
-        RuleUnitVariable ruleUnitVariable = varDeclarations.get(name);
+    public KogitoRuleUnitVariable getVar(String name) {
+        KogitoRuleUnitVariable ruleUnitVariable = varDeclarations.get(name);
         if (ruleUnitVariable == null) {
             throw new UndefinedRuleUnitVariable(name, this.getCanonicalName());
         }
@@ -62,7 +61,7 @@ public abstract class AbstractRuleUnitDescription implements RuleUnitDescription
     }
 
     @Override
-    public Collection<RuleUnitVariable> getUnitVarDeclarations() {
+    public Collection<KogitoRuleUnitVariable> getUnitVarDeclarations() {
         return varDeclarations.values();
     }
 
@@ -73,14 +72,13 @@ public abstract class AbstractRuleUnitDescription implements RuleUnitDescription
     }
 
     protected void putRuleUnitVariable(RuleUnitVariable varDeclaration) {
-        varDeclarations.put(varDeclaration.getName(), varDeclaration);
+        varDeclarations.put(varDeclaration.getName(), (KogitoRuleUnitVariable) varDeclaration);
     }
 
     protected void setConfig(RuleUnitConfig config) {
         this.config = config;
     }
 
-    @Override
     public RuleUnitConfig getConfig() {
         return config;
     }

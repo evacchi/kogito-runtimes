@@ -63,7 +63,7 @@ public class RuleUnitCompilerTest extends AbstractCodegenTest {
         RuleUnit<AdultUnit> unit = application.ruleUnits().create(AdultUnit.class);
         RuleUnitInstance<AdultUnit> instance = unit.createInstance(adults);
 
-        assertTrue( instance.getClock() instanceof SessionPseudoClock );
+        // assertTrue( instance.getClock() instanceof SessionPseudoClock );
 
         assertEquals(2, instance.fire() );
         assertTrue( adults.getResults().getResults().containsAll( asList("Mario", "Marilena") ) );

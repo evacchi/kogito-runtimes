@@ -16,12 +16,8 @@
 
 package org.kie.kogito.rules;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
-
-import org.kie.kogito.internal.utils.ServiceRegistry;
-
-
-
 
 public interface DataSource<T> extends Iterable<T> {
 
@@ -53,7 +49,14 @@ public interface DataSource<T> extends Iterable<T> {
     class FactoryHolder {
 
         private static class LazyHolder {
-            private static Factory INSTANCE = ServiceRegistry.getInstance().get(Factory.class);
+            private static final Factory INSTANCE;
+            static {
+                try {
+                    INSTANCE = (Factory) Thread.currentThread().getContextClassLoader().loadClass("org.kie.kogito.rules.units.impl.DataSourceFactoryImpl").getConstructor().newInstance();
+                } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                    throw new Error(e);
+                }
+            }
         }
 
         public static Factory get() {

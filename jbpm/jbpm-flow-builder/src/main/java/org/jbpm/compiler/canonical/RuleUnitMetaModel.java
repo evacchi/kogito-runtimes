@@ -30,25 +30,27 @@ import com.github.javaparser.ast.stmt.ExpressionStmt;
 import com.github.javaparser.ast.stmt.ForEachStmt;
 import com.github.javaparser.ast.stmt.Statement;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
-import org.kie.kogito.internal.ruleunit.RuleUnitDescription;
-import org.kie.kogito.internal.ruleunit.RuleUnitVariable;
+import org.kie.internal.ruleunit.RuleUnitVariable;
 import org.kie.kogito.rules.DataObserver;
 import org.kie.kogito.rules.DataStore;
 import org.kie.kogito.rules.DataStream;
 import org.kie.kogito.rules.SingletonStore;
+import org.kie.kogito.rules.units.AbstractRuleUnitDescription;
 import org.kie.kogito.rules.units.AssignableChecker;
+import org.kie.kogito.rules.units.KogitoRuleUnitVariable;
+import org.kie.kogito.rules.units.ReflectiveRuleUnitVariable;
 
 import static com.github.javaparser.StaticJavaParser.parseExpression;
 
 public class RuleUnitMetaModel {
 
-    private final RuleUnitDescription ruleUnitDescription;
+    private final AbstractRuleUnitDescription ruleUnitDescription;
     private final String modelClassName;
 
     private final String instanceVarName;
     private final AssignableChecker assignableChecker;
 
-    public RuleUnitMetaModel(RuleUnitDescription ruleUnitDescription, String instanceVarName, AssignableChecker assignableChecker ) {
+    public RuleUnitMetaModel(AbstractRuleUnitDescription ruleUnitDescription, String instanceVarName, AssignableChecker assignableChecker ) {
         this.ruleUnitDescription = ruleUnitDescription;
         this.modelClassName = ruleUnitDescription.getCanonicalName();
         this.instanceVarName = instanceVarName;
@@ -69,7 +71,7 @@ public class RuleUnitMetaModel {
 
     public NodeList<Statement> hoistVars() {
         NodeList<Statement> statements = new NodeList<>();
-        for (RuleUnitVariable v : (Collection<RuleUnitVariable>)ruleUnitDescription.getUnitVarDeclarations()) {
+        for (RuleUnitVariable v : ruleUnitDescription.getUnitVarDeclarations()) {
             statements.add(new ExpressionStmt(assignVar(v)));
         }
         return statements;
@@ -89,7 +91,7 @@ public class RuleUnitMetaModel {
         return set(ruleUnitDescription.getVar(unitVar), sourceExpr);
     }
 
-    private MethodCallExpr set(RuleUnitVariable targetUnitVar, Expression sourceExpr) {
+    private MethodCallExpr set(KogitoRuleUnitVariable targetUnitVar, Expression sourceExpr) {
         String setter = targetUnitVar.setter();
         return new MethodCallExpr(new NameExpr(instanceVarName), setter)
                 .addArgument(sourceExpr);

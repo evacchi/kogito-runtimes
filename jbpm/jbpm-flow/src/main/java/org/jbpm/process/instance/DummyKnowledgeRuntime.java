@@ -59,23 +59,26 @@ class DummyKnowledgeRuntime implements InternalKnowledgeRuntime {
     DummyKnowledgeRuntime(InternalProcessRuntime processRuntime) {
         this.processRuntime = processRuntime;
         this.environment = new Environment() {
-                private NodeInstanceFactoryRegistry codegenNodeInstanceFactoryRegistry = new CodegenNodeInstanceFactoryRegistry();
+            EnvironmentImpl originalEnv = new EnvironmentImpl();
+            private NodeInstanceFactoryRegistry codegenNodeInstanceFactoryRegistry = new CodegenNodeInstanceFactoryRegistry();
+
             @Override
             public Object get(String identifier) {
-                if (identifier.equals("NodeInstanceFactoryRegistry")) return codegenNodeInstanceFactoryRegistry;
-                else {
-                    throw new IllegalArgumentException(identifier);
+                if (identifier.equals("NodeInstanceFactoryRegistry")) {
+                    return codegenNodeInstanceFactoryRegistry;
+                } else {
+                    return originalEnv.get(identifier);
                 }
             }
 
             @Override
             public void set(String identifier, Object object) {
-
+                throw new UnsupportedOperationException();
             }
 
             @Override
             public void setDelegate(Environment delegate) {
-
+                throw new UnsupportedOperationException();
             }
         };
     }

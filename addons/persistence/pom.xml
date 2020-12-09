@@ -16,7 +16,10 @@
     <module>infinispan-persistence-addon</module>
     <module>infinispan-quarkus-health-addon</module>
     <module>filesystem-persistence-addon</module>
+    <!--
+    disabled as it is using the v7 marhsalling api
     <module>mongodb-persistence-addon</module>
+    -->
   </modules>
 
 </project>

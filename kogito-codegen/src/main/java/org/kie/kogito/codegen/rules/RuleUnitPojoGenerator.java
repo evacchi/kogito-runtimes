@@ -26,10 +26,10 @@ import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import org.drools.modelcompiler.builder.JavaParserCompiler;
 import org.kie.kogito.codegen.FileGenerator;
-import org.kie.kogito.internal.ruleunit.RuleUnitVariable;
 import org.kie.kogito.rules.DataStore;
 import org.kie.kogito.rules.RuleUnitData;
 import org.kie.kogito.rules.units.GeneratedRuleUnitDescription;
+import org.kie.kogito.rules.units.KogitoRuleUnitVariable;
 
 public class RuleUnitPojoGenerator implements FileGenerator {
 
@@ -57,7 +57,7 @@ public class RuleUnitPojoGenerator implements FileGenerator {
                         .addImplementedType(RuleUnitData.class.getCanonicalName())
                         .setName(ruleUnitDescription.getSimpleName());
 
-        for (RuleUnitVariable v : ruleUnitDescription.getUnitVarDeclarations()) {
+        for (KogitoRuleUnitVariable v : ruleUnitDescription.getUnitVarDeclarations()) {
             ClassOrInterfaceType t = new ClassOrInterfaceType()
                     .setName(v.getType().getCanonicalName());
             FieldDeclaration f = new FieldDeclaration();

@@ -17,9 +17,8 @@ package org.kie.kogito.rules;
 
 import java.util.List;
 
-import org.kie.kogito.internal.event.rule.AgendaEventListener;
-import org.kie.kogito.internal.event.rule.RuleRuntimeEventListener;
-
+import org.kie.api.event.rule.AgendaEventListener;
+import org.kie.api.event.rule.RuleRuntimeEventListener;
 
 public interface RuleEventListenerConfig {
 

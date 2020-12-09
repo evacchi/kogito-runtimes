@@ -38,7 +38,7 @@ import com.github.javaparser.ast.stmt.Statement;
 import org.drools.modelcompiler.builder.QueryModel;
 import org.kie.kogito.codegen.BodyDeclarationComparator;
 import org.kie.kogito.codegen.FileGenerator;
-import org.kie.kogito.internal.ruleunit.RuleUnitDescription;
+import org.kie.kogito.rules.units.AbstractRuleUnitDescription;
 
 import static com.github.javaparser.StaticJavaParser.parse;
 import static org.drools.core.util.StringUtils.ucFirst;
@@ -47,14 +47,14 @@ import static org.kie.kogito.codegen.rules.QueryEndpointGenerator.setGeneric;
 
 public class QueryGenerator implements FileGenerator {
 
-    private final RuleUnitDescription ruleUnit;
+    private final AbstractRuleUnitDescription ruleUnit;
     private final QueryModel query;
 
     private final String name;
     private final String targetCanonicalName;
     private final String generatedFilePath;
 
-    public QueryGenerator( RuleUnitDescription ruleUnit, QueryModel query, String name ) {
+    public QueryGenerator( AbstractRuleUnitDescription ruleUnit, QueryModel query, String name ) {
         this.ruleUnit = ruleUnit;
         this.query = query;
         this.name = name;

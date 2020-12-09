@@ -40,7 +40,6 @@ import org.kie.kogito.codegen.FileGenerator;
 import org.kie.kogito.codegen.di.DependencyInjectionAnnotator;
 import org.kie.kogito.conf.ClockType;
 import org.kie.kogito.conf.EventProcessingType;
-import org.kie.kogito.internal.ruleunit.RuleUnitDescription;
 import org.kie.kogito.rules.RuleUnit;
 import org.kie.kogito.rules.RuleUnitConfig;
 import org.kie.kogito.rules.units.AbstractRuleUnitDescription;

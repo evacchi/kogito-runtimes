@@ -39,11 +39,11 @@ import org.kie.kogito.codegen.BodyDeclarationComparator;
 import org.kie.kogito.codegen.FileGenerator;
 import org.kie.kogito.conf.DefaultEntryPoint;
 import org.kie.kogito.conf.EntryPoint;
-import org.kie.kogito.internal.ruleunit.RuleUnitVariable;
 import org.kie.kogito.rules.DataSource;
 import org.kie.kogito.rules.units.AbstractRuleUnitDescription;
 import org.kie.kogito.rules.units.AbstractRuleUnitInstance;
 import org.kie.kogito.rules.units.EntryPointDataProcessor;
+import org.kie.kogito.rules.units.KogitoRuleUnitVariable;
 
 public class RuleUnitInstanceGenerator implements FileGenerator {
 
@@ -98,7 +98,7 @@ public class RuleUnitInstanceGenerator implements FileGenerator {
         try {
 
 
-            for (RuleUnitVariable m : ruleUnitDescription.getUnitVarDeclarations()) {
+            for (KogitoRuleUnitVariable m : ruleUnitDescription.getUnitVarDeclarations()) {
                 String methodName = m.getter();
                 String propertyName = m.getName();
 

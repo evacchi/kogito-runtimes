@@ -19,18 +19,13 @@ package org.jbpm.test.util;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.drools.core.impl.KnowledgeBaseFactory;
-import org.drools.core.impl.KnowledgeBaseImpl;
 import org.jbpm.process.instance.impl.util.LoggingPrintStream;
 import org.jbpm.process.test.TestProcessEventListener;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
-import org.kie.api.KieBase;
-import org.kie.api.definition.process.Process;
 import org.kie.kogito.internal.runtime.KieSession;
-import org.kie.kogito.internal.runtime.KieSessionBridge;
 import org.slf4j.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -50,11 +45,13 @@ public abstract class AbstractBaseTest {
     protected static AtomicInteger uniqueIdGen = new AtomicInteger(0);
 
     public KieSession createKieSession(Process... process) {
-        KieBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
-        for (Process processToAdd : process) {
-            ((KnowledgeBaseImpl) kbase).addProcess(processToAdd);
-        }
-        return new KieSessionBridge(kbase.newKieSession());
+//        KieBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
+//        for (Process processToAdd : process) {
+//            ((KnowledgeBaseImpl) kbase).addProcess(processToAdd);
+//        }
+//        return new KieSessionBridge(kbase.newKieSession());
+
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     public void showEventHistory(KieSession ksession) {

@@ -48,7 +48,7 @@ import org.kie.kogito.codegen.AddonsConfig;
 import org.kie.kogito.codegen.BodyDeclarationComparator;
 import org.kie.kogito.codegen.FileGenerator;
 import org.kie.kogito.codegen.di.DependencyInjectionAnnotator;
-import org.kie.kogito.internal.ruleunit.RuleUnitDescription;
+import org.kie.kogito.rules.units.AbstractRuleUnitDescription;
 
 import static com.github.javaparser.StaticJavaParser.parse;
 import static com.github.javaparser.StaticJavaParser.parseClassOrInterfaceType;
@@ -57,7 +57,7 @@ import static org.drools.modelcompiler.builder.generator.DrlxParseUtil.className
 
 public class QueryEndpointGenerator implements FileGenerator {
 
-    private final RuleUnitDescription ruleUnit;
+    private final AbstractRuleUnitDescription ruleUnit;
     private final QueryModel query;
     private final DependencyInjectionAnnotator annotator;
 
@@ -68,7 +68,7 @@ public class QueryEndpointGenerator implements FileGenerator {
     private final String generatedFilePath;
     private final AddonsConfig addonsConfig;
 
-    public QueryEndpointGenerator(RuleUnitDescription ruleUnit, QueryModel query, DependencyInjectionAnnotator annotator, AddonsConfig addonsConfig) {
+    public QueryEndpointGenerator(AbstractRuleUnitDescription ruleUnit, QueryModel query, DependencyInjectionAnnotator annotator, AddonsConfig addonsConfig) {
         this.ruleUnit = ruleUnit;
         this.query = query;
         this.name = toCamelCase(query.getName());
@@ -258,7 +258,7 @@ public class QueryEndpointGenerator implements FileGenerator {
         setGeneric(type, ruleUnit);
     }
 
-    static void setGeneric(Type type, RuleUnitDescription ruleUnit) {
+    static void setGeneric(Type type, AbstractRuleUnitDescription ruleUnit) {
         type.asClassOrInterfaceType().setTypeArguments(classNameToReferenceType(ruleUnit.getCanonicalName()));
     }
 

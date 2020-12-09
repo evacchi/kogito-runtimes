@@ -16,7 +16,7 @@
 
 package org.jbpm.process.core.impl;
 
-import org.kie.kogito.internal.utils.ServiceRegistry;
+import java.lang.reflect.InvocationTargetException;
 
 public class XmlProcessDumperFactory {
 
@@ -29,7 +29,14 @@ public class XmlProcessDumperFactory {
     }
 
     private static class LazyHolder {
-        private static final XmlProcessDumperFactoryService service = ServiceRegistry.getInstance().get( XmlProcessDumperFactoryService.class );
+        private static final XmlProcessDumperFactoryService service;
+        static {
+            try {
+                service = (XmlProcessDumperFactoryService) Thread.currentThread().getContextClassLoader().loadClass("org.jbpm.bpmn2.xml.XmlProcessDumperFactoryServiceImpl").getConstructor().newInstance();
+            } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                throw new Error(e);
+            }
+        }
     }
 
     private XmlProcessDumperFactory() {
