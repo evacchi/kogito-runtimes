@@ -2,10 +2,10 @@ package com.myspace.demo;
 
 
 
-import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.kogito.event.impl.DefaultEventMarshaller;
 import org.kie.kogito.events.knative.ce.decorators.MessageDecorator;
 import org.kie.kogito.events.knative.ce.decorators.MessageDecoratorFactory;
+import org.kie.kogito.internal.runtime.process.ProcessInstance;
 import org.kie.kogito.services.event.DataEventAttrBuilder;
 import org.kie.kogito.services.event.EventMarshaller;
 

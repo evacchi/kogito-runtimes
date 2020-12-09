@@ -1,7 +1,7 @@
 package org.kie.kogito.test;
 
-import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.kogito.conf.ConfigBean;
+import org.kie.kogito.internal.runtime.process.ProcessInstance;
 import org.kie.kogito.services.event.CloudEventEmitter;
 import org.kie.kogito.services.event.EventMarshaller;
 import org.kie.kogito.event.impl.DefaultEventMarshaller;

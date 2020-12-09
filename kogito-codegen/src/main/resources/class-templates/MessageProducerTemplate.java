@@ -2,8 +2,8 @@ package com.myspace.demo;
 
 import java.util.Optional;
 
-import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.kogito.event.impl.DefaultEventMarshaller;
+import org.kie.kogito.internal.runtime.process.ProcessInstance;
 import org.kie.kogito.services.event.EventMarshaller;
 
 public class MessageProducer {
