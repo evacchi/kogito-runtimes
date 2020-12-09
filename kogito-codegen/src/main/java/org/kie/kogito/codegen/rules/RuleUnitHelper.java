@@ -17,11 +17,12 @@
 package org.kie.kogito.codegen.rules;
 
 import com.github.javaparser.ast.stmt.BlockStmt;
-import org.kie.kogito.internal.ruleunit.RuleUnitVariable;
+import org.kie.internal.ruleunit.RuleUnitVariable;
 import org.kie.kogito.rules.DataStore;
 import org.kie.kogito.rules.DataStream;
 import org.kie.kogito.rules.SingletonStore;
 import org.kie.kogito.rules.units.AssignableChecker;
+import org.kie.kogito.rules.units.ReflectiveRuleUnitVariable;
 
 public class RuleUnitHelper {
     private AssignableChecker assignableChecker;
@@ -44,7 +45,8 @@ public class RuleUnitHelper {
         return assignableChecker.isAssignableFrom( source, target );
     }
 
-    BlockStmt fieldInitializer( RuleUnitVariable ruleUnitVariable, String genericType, boolean isDataSource) {
+    BlockStmt fieldInitializer( RuleUnitVariable ruv, String genericType, boolean isDataSource) {
+        ReflectiveRuleUnitVariable ruleUnitVariable = (ReflectiveRuleUnitVariable) ruv;
         BlockStmt supplierBlock = new BlockStmt();
 
         if (!isDataSource) {

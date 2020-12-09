@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.jbpm.compiler.canonical.ProcessToExecModelGenerator;
-import org.kie.api.definition.process.Process;
+import org.kie.kogito.internal.definition.process.Process;
 import org.kie.kogito.internal.definition.process.WorkflowProcess;
 
 /**

@@ -64,37 +64,37 @@ public class BusinessRuleTaskTest extends AbstractCodegenTest {
         assertThat(result.toMap().get("person")).isNotNull().hasFieldOrPropertyWithValue("adult", true);
     }
 
-    @Test
-    public void testBasicBusinessRuleTaskWithAgendaListener() throws Exception {
-        Map<AbstractCodegenTest.TYPE, List<String>> resourcesTypeMap = new HashMap<>();
-        resourcesTypeMap.put(TYPE.PROCESS, Collections.singletonList("ruletask/BusinessRuleTask.bpmn2"));
-        resourcesTypeMap.put(TYPE.RULES, Collections.singletonList("ruletask/BusinessRuleTask.drl"));
-        Application app = generateCode(resourcesTypeMap, false);
-        assertThat(app).isNotNull();
-        final AtomicInteger counter = new AtomicInteger();
-        app.config().rule().ruleEventListeners().agendaListeners().add(new DefaultAgendaEventListener() {
-
-            @Override
-            public void afterMatchFired(AfterMatchFiredEvent event) {
-                counter.incrementAndGet();
-            }
-
-        });
-        Process<? extends Model> p = app.processes().processById("BusinessRuleTask");
-
-        Model m = p.createModel();
-        m.fromMap(Collections.singletonMap("person", new Person("john", 25)));
-
-        ProcessInstance<?> processInstance = p.createInstance(m);
-        processInstance.start();
-
-        assertThat(processInstance.status()).isEqualTo(ProcessInstance.STATE_COMPLETED);
-        Model result = (Model)processInstance.variables();
-        assertThat(result.toMap()).hasSize(1).containsKey("person");
-        assertThat(result.toMap().get("person")).isNotNull().hasFieldOrPropertyWithValue("adult", true);
-
-        assertThat(counter.get()).isEqualTo(1);
-    }
+//    @Test
+//    public void testBasicBusinessRuleTaskWithAgendaListener() throws Exception {
+//        Map<AbstractCodegenTest.TYPE, List<String>> resourcesTypeMap = new HashMap<>();
+//        resourcesTypeMap.put(TYPE.PROCESS, Collections.singletonList("ruletask/BusinessRuleTask.bpmn2"));
+//        resourcesTypeMap.put(TYPE.RULES, Collections.singletonList("ruletask/BusinessRuleTask.drl"));
+//        Application app = generateCode(resourcesTypeMap, false);
+//        assertThat(app).isNotNull();
+//        final AtomicInteger counter = new AtomicInteger();
+//        app.config().rule().ruleEventListeners().agendaListeners().add(new DefaultAgendaEventListener() {
+//
+//            @Override
+//            public void afterMatchFired(AfterMatchFiredEvent event) {
+//                counter.incrementAndGet();
+//            }
+//
+//        });
+//        Process<? extends Model> p = app.processes().processById("BusinessRuleTask");
+//
+//        Model m = p.createModel();
+//        m.fromMap(Collections.singletonMap("person", new Person("john", 25)));
+//
+//        ProcessInstance<?> processInstance = p.createInstance(m);
+//        processInstance.start();
+//
+//        assertThat(processInstance.status()).isEqualTo(ProcessInstance.STATE_COMPLETED);
+//        Model result = (Model)processInstance.variables();
+//        assertThat(result.toMap()).hasSize(1).containsKey("person");
+//        assertThat(result.toMap().get("person")).isNotNull().hasFieldOrPropertyWithValue("adult", true);
+//
+//        assertThat(counter.get()).isEqualTo(1);
+//    }
 
     @Test
     public void testBasicBusinessRuleTaskControlledByUnitOfWork() throws Exception {

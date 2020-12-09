@@ -65,6 +65,7 @@ import org.kie.kogito.Model;
 import org.kie.kogito.codegen.AbstractCodegenTest;
 import org.kie.kogito.internal.definition.process.Connection;
 import org.kie.kogito.internal.definition.process.Node;
+import org.kie.kogito.internal.definition.process.Process;
 import org.kie.kogito.process.impl.AbstractProcess;
 
 import static org.jbpm.ruleflow.core.Metadata.ACTION;
@@ -120,7 +121,7 @@ public class ProcessGenerationTest extends AbstractCodegenTest {
     public void testProcessGeneration(String processFile) throws Exception {
         // for some tests this needs to be set to true
         System.setProperty("jbpm.enable.multi.con", "true");
-        List<org.kie.api.definition.process.Process> processes = ProcessCodegen.parseProcesses(Stream.of(processFile)
+        List<Process> processes = ProcessCodegen.parseProcesses(Stream.of(processFile)
                 .map(resource -> new File(BASE_PATH.toString(), resource))
                 .collect(Collectors.toList()));
         RuleFlowProcess expected = (RuleFlowProcess) processes.get(0);

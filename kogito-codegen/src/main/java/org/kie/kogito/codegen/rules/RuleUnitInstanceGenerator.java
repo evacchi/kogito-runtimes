@@ -16,7 +16,6 @@
 package org.kie.kogito.codegen.rules;
 
 import java.lang.reflect.Field;
-import java.util.Collection;
 import java.util.List;
 
 import com.github.javaparser.StaticJavaParser;
@@ -40,9 +39,9 @@ import org.kie.kogito.codegen.BodyDeclarationComparator;
 import org.kie.kogito.codegen.FileGenerator;
 import org.kie.kogito.conf.DefaultEntryPoint;
 import org.kie.kogito.conf.EntryPoint;
-import org.kie.kogito.internal.ruleunit.RuleUnitDescription;
 import org.kie.kogito.internal.ruleunit.RuleUnitVariable;
 import org.kie.kogito.rules.DataSource;
+import org.kie.kogito.rules.units.AbstractRuleUnitDescription;
 import org.kie.kogito.rules.units.AbstractRuleUnitInstance;
 import org.kie.kogito.rules.units.EntryPointDataProcessor;
 
@@ -51,7 +50,7 @@ public class RuleUnitInstanceGenerator implements FileGenerator {
     private final String targetTypeName;
     private final String targetCanonicalName;
     private final String generatedFilePath;
-    private final RuleUnitDescription ruleUnitDescription;
+    private final AbstractRuleUnitDescription ruleUnitDescription;
     private final RuleUnitHelper ruleUnitHelper;
     private final List<String> queryClasses;
 
@@ -59,7 +58,7 @@ public class RuleUnitInstanceGenerator implements FileGenerator {
         return packageName + "." + typeName + "RuleUnitInstance";
     }
 
-    public RuleUnitInstanceGenerator( RuleUnitDescription ruleUnitDescription, RuleUnitHelper ruleUnitHelper, List<String> queryClasses ) {
+    public RuleUnitInstanceGenerator( AbstractRuleUnitDescription ruleUnitDescription, RuleUnitHelper ruleUnitHelper, List<String> queryClasses ) {
         this.ruleUnitDescription = ruleUnitDescription;
         this.targetTypeName = ruleUnitDescription.getSimpleName() + "RuleUnitInstance";
         this.targetCanonicalName = ruleUnitDescription.getPackageName() + "." + targetTypeName;
@@ -99,7 +98,7 @@ public class RuleUnitInstanceGenerator implements FileGenerator {
         try {
 
 
-            for (RuleUnitVariable m : (Collection<RuleUnitVariable>)ruleUnitDescription.getUnitVarDeclarations()) {
+            for (RuleUnitVariable m : ruleUnitDescription.getUnitVarDeclarations()) {
                 String methodName = m.getter();
                 String propertyName = m.getName();
 
@@ -162,7 +161,7 @@ public class RuleUnitInstanceGenerator implements FileGenerator {
         return methodDeclaration;
     }
 
-    private String getEntryPointName( RuleUnitDescription ruleUnitDescription, String propertyName ) {
+    private String getEntryPointName( AbstractRuleUnitDescription ruleUnitDescription, String propertyName ) {
         Class<?> ruleUnitClass = ruleUnitDescription.getRuleUnitClass();
         if (ruleUnitClass == null) {
             return propertyName;

@@ -1,49 +1,30 @@
-///*
-// * Copyright 2019 Red Hat, Inc. and/or its affiliates.
-// *
-// * Licensed under the Apache License, Version 2.0 (the "License");
-// * you may not use this file except in compliance with the License.
-// *
-// *      http://www.apache.org/licenses/LICENSE-2.0
-// *
-// * Unless required by applicable law or agreed to in writing, software
-// * distributed under the License is distributed on an "AS IS" BASIS,
-// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// * See the License for the specific language governing permissions and
-// * limitations under the License.
-// */
-//
-//package org.kie.kogito.process.impl.marshalling;
-//
-//import java.io.ByteArrayInputStream;
-//import java.io.ByteArrayOutputStream;
-//import java.util.Collections;
-//
-//import org.drools.core.impl.EnvironmentImpl;
-//import org.drools.core.marshalling.impl.ClassObjectMarshallingStrategyAcceptor;
-//import org.drools.core.marshalling.impl.KogitoSerializablePlaceholderResolverStrategy;
-//import org.drools.core.marshalling.impl.MarshallerReaderContext;
-//import org.drools.core.marshalling.impl.SerializablePlaceholderResolverStrategy;
-//import org.drools.serialization.protobuf.PersisterHelper;
-//import org.jbpm.marshalling.impl.JBPMMessages;
-//import org.jbpm.marshalling.impl.KogitoMarshallerReaderContext;
-//import org.jbpm.marshalling.impl.KogitoProcessMarshallerWriteContext;
-//import org.jbpm.marshalling.impl.ProcessMarshallerRegistry;
-//import org.jbpm.marshalling.impl.ProtobufRuleFlowProcessInstanceMarshaller;
-//import org.jbpm.workflow.instance.WorkflowProcessInstance;
-//import org.kie.kogito.internal.marshalling.ObjectMarshallingStrategy;
-//import org.kie.kogito.internal.runtime.Environment;
-//import org.kie.kogito.internal.runtime.EnvironmentName;
-//import org.kie.kogito.process.Process;
-//import org.kie.kogito.process.ProcessInstance;
-//import org.kie.kogito.process.impl.AbstractProcess;
-//import org.kie.kogito.process.impl.AbstractProcessInstance;
-//
-//public class ProcessInstanceMarshaller {
-//
+/*
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.kie.kogito.process.impl.marshalling;
+
+import org.jbpm.workflow.instance.WorkflowProcessInstance;
+import org.kie.kogito.internal.marshalling.ObjectMarshallingStrategy;
+import org.kie.kogito.process.Process;
+import org.kie.kogito.process.ProcessInstance;
+
+public class ProcessInstanceMarshaller {
+
 //    private Environment env = new EnvironmentImpl();
-//
-//    public ProcessInstanceMarshaller(ObjectMarshallingStrategy... strategies) {
+
+    public ProcessInstanceMarshaller(ObjectMarshallingStrategy... strategies) {
 //        ObjectMarshallingStrategy[] strats = null;
 //        if (strategies == null) {
 //            strats = new ObjectMarshallingStrategy[]{new SerializablePlaceholderResolverStrategy(ClassObjectMarshallingStrategyAcceptor.DEFAULT)};
@@ -58,9 +39,10 @@
 //        }
 //
 //        env.set(EnvironmentName.OBJECT_MARSHALLING_STRATEGIES, strats);
-//    }
-//
-//    public byte[] marshallProcessInstance(ProcessInstance<?> processInstance) {
+    }
+
+    public byte[] marshallProcessInstance(ProcessInstance<?> processInstance) {
+        return new byte[0];
 //
 //        WorkflowProcessInstance pi = ((AbstractProcessInstance<?>) processInstance).internalGetProcessInstance();
 //
@@ -91,9 +73,10 @@
 //        } catch (Exception e) {
 //            throw new RuntimeException("Error while marshalling process instance", e);
 //        }
-//    }
-//
-//    public WorkflowProcessInstance unmarshallWorkflowProcessInstance(byte[] data, Process<?> process) {
+    }
+
+    public WorkflowProcessInstance unmarshallWorkflowProcessInstance(byte[] data, Process<?> process) {
+        return null;//
 //        try (ByteArrayInputStream bais = new ByteArrayInputStream(data)) {
 //            MarshallerReaderContext context = new KogitoMarshallerReaderContext(bais,
 //                                                                                Collections.singletonMap(process.id(), ((AbstractProcess<?>) process).process()),
@@ -109,13 +92,13 @@
 //        } catch (Exception e) {
 //            throw new RuntimeException("Error while unmarshalling process instance", e);
 //        }
-//    }
-//
-//    public ProcessInstance unmarshallProcessInstance(byte[] data, Process process) {
-//        return ((AbstractProcess) process).createInstance(unmarshallWorkflowProcessInstance(data, process));
-//    }
-//
-//    public ProcessInstance unmarshallReadOnlyProcessInstance(byte[] data, Process process) {
-//        return ((AbstractProcess) process).createReadOnlyInstance(unmarshallWorkflowProcessInstance(data, process));
-//    }
-//}
+    }
+
+    public ProcessInstance unmarshallProcessInstance(byte[] data, Process process) {
+        return null;// ((AbstractProcess) process).createInstance(unmarshallWorkflowProcessInstance(data, process));
+    }
+
+    public ProcessInstance unmarshallReadOnlyProcessInstance(byte[] data, Process process) {
+        return null;// ((AbstractProcess) process).createReadOnlyInstance(unmarshallWorkflowProcessInstance(data, process));
+    }
+}

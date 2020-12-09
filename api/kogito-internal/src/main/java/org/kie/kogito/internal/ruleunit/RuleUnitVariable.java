@@ -14,7 +14,7 @@
  * limitations under the License.
  */package org.kie.kogito.internal.ruleunit;
 
-public interface RuleUnitVariable  {
+public interface RuleUnitVariable extends org.kie.internal.ruleunit.RuleUnitVariable {
     
     boolean isDataSource();
 

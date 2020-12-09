@@ -21,16 +21,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
-import org.drools.core.config.DefaultRuleEventListenerConfig;
-import org.drools.core.event.DefaultAgendaEventListener;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.kie.api.event.rule.AfterMatchFiredEvent;
 import org.kie.kogito.Application;
 import org.kie.kogito.Model;
 import org.kie.kogito.codegen.AbstractCodegenTest;
@@ -40,7 +36,6 @@ import org.kie.kogito.internal.event.process.DefaultProcessEventListener;
 import org.kie.kogito.internal.event.process.ProcessStartedEvent;
 import org.kie.kogito.process.Process;
 import org.kie.kogito.process.ProcessInstance;
-import org.kie.kogito.process.impl.DefaultProcessEventListenerConfig;
 import org.kie.kogito.rules.units.UndefinedGeneratedRuleUnitVariable;
 import org.kie.kogito.uow.UnitOfWork;
 
@@ -83,38 +78,38 @@ public class BusinessRuleUnitTest extends AbstractCodegenTest {
         assertThat(result.toMap().get("person")).isNotNull().hasFieldOrPropertyWithValue("adult", true);
     }
 
-    @ParameterizedTest
-    @MethodSource("processes")
-    public void testBasicBusinessRuleUnitWithAgendaListener(String bpmnPath) throws Exception {
-        Map<AbstractCodegenTest.TYPE, List<String>> resourcesTypeMap = new HashMap<>();
-        resourcesTypeMap.put(TYPE.PROCESS, Collections.singletonList(bpmnPath));
-        resourcesTypeMap.put(TYPE.RULES, Collections.singletonList("org/kie/kogito/codegen/tests/BusinessRuleUnit.drl"));
-        Application app = generateCode(resourcesTypeMap, false);
-        assertThat(app).isNotNull();
-        final AtomicInteger counter = new AtomicInteger();
-        app.config().rule().ruleEventListeners().agendaListeners().add(new DefaultAgendaEventListener() {
-
-            @Override
-            public void afterMatchFired(AfterMatchFiredEvent event) {
-                counter.incrementAndGet();
-            }
-
-        });
-        Process<? extends Model> p = app.processes().processById("BusinessRuleUnit");
-
-        Model m = p.createModel();
-        m.fromMap(Collections.singletonMap("person", new Person("john", 25)));
-
-        ProcessInstance<?> processInstance = p.createInstance(m);
-        processInstance.start();
-
-        assertThat(processInstance.status()).isEqualTo(ProcessInstance.STATE_COMPLETED);
-        Model result = (Model)processInstance.variables();
-        assertThat(result.toMap()).hasSize(1).containsKey("person");
-        assertThat(result.toMap().get("person")).isNotNull().hasFieldOrPropertyWithValue("adult", true);
-
-        assertThat(counter.get()).isEqualTo(1);
-    }
+//    @ParameterizedTest
+//    @MethodSource("processes")
+//    public void testBasicBusinessRuleUnitWithAgendaListener(String bpmnPath) throws Exception {
+//        Map<AbstractCodegenTest.TYPE, List<String>> resourcesTypeMap = new HashMap<>();
+//        resourcesTypeMap.put(TYPE.PROCESS, Collections.singletonList(bpmnPath));
+//        resourcesTypeMap.put(TYPE.RULES, Collections.singletonList("org/kie/kogito/codegen/tests/BusinessRuleUnit.drl"));
+//        Application app = generateCode(resourcesTypeMap, false);
+//        assertThat(app).isNotNull();
+//        final AtomicInteger counter = new AtomicInteger();
+//        app.config().rule().ruleEventListeners().agendaListeners().add(new DefaultAgendaEventListener() {
+//
+//            @Override
+//            public void afterMatchFired(AfterMatchFiredEvent event) {
+//                counter.incrementAndGet();
+//            }
+//
+//        });
+//        Process<? extends Model> p = app.processes().processById("BusinessRuleUnit");
+//
+//        Model m = p.createModel();
+//        m.fromMap(Collections.singletonMap("person", new Person("john", 25)));
+//
+//        ProcessInstance<?> processInstance = p.createInstance(m);
+//        processInstance.start();
+//
+//        assertThat(processInstance.status()).isEqualTo(ProcessInstance.STATE_COMPLETED);
+//        Model result = (Model)processInstance.variables();
+//        assertThat(result.toMap()).hasSize(1).containsKey("person");
+//        assertThat(result.toMap().get("person")).isNotNull().hasFieldOrPropertyWithValue("adult", true);
+//
+//        assertThat(counter.get()).isEqualTo(1);
+//    }
 
     @ParameterizedTest
     @MethodSource("processes")

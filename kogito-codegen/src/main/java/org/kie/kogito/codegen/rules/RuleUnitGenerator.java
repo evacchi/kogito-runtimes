@@ -43,6 +43,7 @@ import org.kie.kogito.conf.EventProcessingType;
 import org.kie.kogito.internal.ruleunit.RuleUnitDescription;
 import org.kie.kogito.rules.RuleUnit;
 import org.kie.kogito.rules.RuleUnitConfig;
+import org.kie.kogito.rules.units.AbstractRuleUnitDescription;
 import org.kie.kogito.rules.units.GeneratedRuleUnitDescription;
 import org.kie.kogito.rules.units.impl.AbstractRuleUnit;
 
@@ -56,7 +57,7 @@ public class RuleUnitGenerator implements FileGenerator {
 
     public static final String TEMPLATE = "/class-templates/rules/RuleUnitTemplate.java";
 
-    private final RuleUnitDescription ruleUnit;
+    private final AbstractRuleUnitDescription ruleUnit;
     private final String packageName;
     private final String typeName;
     private final String generatedSourceFile;
@@ -69,7 +70,7 @@ public class RuleUnitGenerator implements FileGenerator {
     private String applicationPackageName;
     private AddonsConfig addonsConfig = AddonsConfig.DEFAULT;
 
-    public RuleUnitGenerator(RuleUnitDescription ruleUnit, String generatedSourceFile) {
+    public RuleUnitGenerator(AbstractRuleUnitDescription ruleUnit, String generatedSourceFile) {
         this.ruleUnit = ruleUnit;
         this.packageName = ruleUnit.getPackageName();
         this.typeName = ruleUnit.getSimpleName();
@@ -231,7 +232,7 @@ public class RuleUnitGenerator implements FileGenerator {
         return this;
     }
 
-    public RuleUnitDescription getRuleUnitDescription() {
+    public AbstractRuleUnitDescription getRuleUnitDescription() {
         return ruleUnit;
     }
 

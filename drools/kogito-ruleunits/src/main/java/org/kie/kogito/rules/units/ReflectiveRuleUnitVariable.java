@@ -19,7 +19,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Objects;
 
-import org.kie.kogito.internal.ruleunit.RuleUnitVariable;
+import org.kie.internal.ruleunit.RuleUnitVariable;
 
 import static org.drools.reflective.util.ClassUtils.convertFromPrimitiveType;
 import static org.drools.reflective.util.ClassUtils.getter2property;
@@ -94,7 +94,7 @@ public final class ReflectiveRuleUnitVariable implements RuleUnitVariable {
         return getter;
     }
 
-    @Override
+//    @Override
     public String setter() {
         return setter;
     }

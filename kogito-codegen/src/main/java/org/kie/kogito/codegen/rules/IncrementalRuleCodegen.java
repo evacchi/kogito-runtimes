@@ -76,8 +76,9 @@ import org.kie.kogito.codegen.rules.config.RuleConfigGenerator;
 import org.kie.kogito.conf.ClockType;
 import org.kie.kogito.conf.EventProcessingType;
 import org.kie.kogito.grafana.GrafanaConfigurationWriter;
-import org.kie.kogito.internal.ruleunit.RuleUnitDescription;
+import org.kie.internal.ruleunit.RuleUnitDescription;
 import org.kie.kogito.rules.RuleUnitConfig;
+import org.kie.kogito.rules.units.AbstractRuleUnitDescription;
 import org.kie.kogito.rules.units.AssignableChecker;
 import org.kie.kogito.rules.units.ReflectiveRuleUnitDescription;
 
@@ -269,10 +270,10 @@ public class IncrementalRuleCodegen extends AbstractGenerator {
                 modelFiles.add(new GeneratedFile(GeneratedFile.Type.RULE, "../../classes/" + reflectConfigSource.getPath(), new String(reflectConfigSource.getData(), StandardCharsets.UTF_8)));
             }
 
-            Collection<RuleUnitDescription> ruleUnits = pkgSources.getRuleUnits();
+            Collection<AbstractRuleUnitDescription> ruleUnits = pkgSources.getRuleUnits();
             if (!ruleUnits.isEmpty()) {
                 hasRuleUnits = true;
-                for (RuleUnitDescription ruleUnit : ruleUnits) {
+                for (AbstractRuleUnitDescription ruleUnit : ruleUnits) {
                     String canonicalName = ruleUnit.getCanonicalName();
                     RuleUnitGenerator ruSource = new RuleUnitGenerator(ruleUnit, pkgSources.getRulesFileName())
                             .withDependencyInjection(annotator)
@@ -354,7 +355,7 @@ public class IncrementalRuleCodegen extends AbstractGenerator {
                 .flatMap( o -> o.isPresent() ? Stream.of(o.get()) : Stream.empty() ).collect( toList() );
     }
 
-    private void initRuleUnitHelper( RuleUnitHelper ruleUnitHelper, RuleUnitDescription ruleUnitDesc ) {
+    private void initRuleUnitHelper( RuleUnitHelper ruleUnitHelper, AbstractRuleUnitDescription ruleUnitDesc ) {
         if (ruleUnitDesc instanceof ReflectiveRuleUnitDescription ) {
             ruleUnitHelper.setAssignableChecker( ( ( ReflectiveRuleUnitDescription ) ruleUnitDesc).getAssignableChecker() );
         } else {
@@ -400,7 +401,7 @@ public class IncrementalRuleCodegen extends AbstractGenerator {
         }
     }
 
-    private void addUnitConfToKieModule(RuleUnitDescription ruleUnitDescription) {
+    private void addUnitConfToKieModule(AbstractRuleUnitDescription ruleUnitDescription) {
         KieBaseModel unitKieBaseModel = kieModuleModel.newKieBaseModel(ruleUnit2KieBaseName(ruleUnitDescription.getCanonicalName()));
         unitKieBaseModel.setEventProcessingMode(org.kie.api.conf.EventProcessingOption.CLOUD);
         unitKieBaseModel.addPackage(ruleUnitDescription.getPackageName());

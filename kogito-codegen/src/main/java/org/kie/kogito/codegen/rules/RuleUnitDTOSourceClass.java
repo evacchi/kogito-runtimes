@@ -27,21 +27,22 @@ import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.stmt.BlockStmt;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
+import org.kie.internal.ruleunit.RuleUnitVariable;
 import org.kie.kogito.codegen.FileGenerator;
 import org.kie.kogito.internal.ruleunit.RuleUnitDescription;
-import org.kie.kogito.internal.ruleunit.RuleUnitVariable;
 import org.kie.kogito.rules.SingletonStore;
+import org.kie.kogito.rules.units.AbstractRuleUnitDescription;
 
 public class RuleUnitDTOSourceClass implements FileGenerator {
 
-    private final RuleUnitDescription ruleUnit;
+    private final AbstractRuleUnitDescription ruleUnit;
 
     private final String targetCanonicalName;
     private final String generatedFilePath;
     private final String packageName;
     private final RuleUnitHelper ruleUnitHelper;
 
-    public RuleUnitDTOSourceClass(RuleUnitDescription ruleUnit, RuleUnitHelper ruleUnitHelper ) {
+    public RuleUnitDTOSourceClass(AbstractRuleUnitDescription ruleUnit, RuleUnitHelper ruleUnitHelper ) {
         this.ruleUnit = ruleUnit;
 
         this.targetCanonicalName = ruleUnit.getSimpleName() + "DTO";
@@ -69,7 +70,7 @@ public class RuleUnitDTOSourceClass implements FileGenerator {
         BlockStmt supplierBlock = supplier.createBody();
         supplierBlock.addStatement(String.format("%s unit = new %s();", ruleUnit.getSimpleName(), ruleUnit.getSimpleName()));
 
-        for (RuleUnitVariable unitVarDeclaration : (Collection<RuleUnitVariable>)ruleUnit.getUnitVarDeclarations()) {
+        for (RuleUnitVariable unitVarDeclaration : ruleUnit.getUnitVarDeclarations()) {
             FieldProcessor fieldProcessor = new FieldProcessor(unitVarDeclaration, ruleUnitHelper );
             FieldDeclaration field = fieldProcessor.createField();
             supplierBlock.addStatement(fieldProcessor.fieldInitializer());
