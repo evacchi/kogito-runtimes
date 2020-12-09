@@ -89,7 +89,7 @@ public class ProtoStreamObjectMarshallingStrategy implements ObjectMarshallingSt
         return ProtobufUtil.fromByteArray(serializationContext, object, serializationContext.getMarshaller(dataType).getJavaClass());
     }
 
-    @Override
+//    @Override
     public String getType(Class<?> clazz) {
         BaseMarshaller<?> marshaller = serializationContext.getMarshaller(clazz);
         if (marshaller == null) {

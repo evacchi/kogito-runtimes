@@ -74,7 +74,7 @@ import org.kie.api.event.rule.BeforeMatchFiredEvent;
 import org.kie.api.event.rule.MatchCancelledEvent;
 import org.kie.api.event.rule.MatchCreatedEvent;
 import org.kie.api.runtime.Context;
-import org.kie.api.runtime.process.DataTransformer;
+import org.kie.kogito.internal.runtime.process.DataTransformer;
 import org.kie.internal.command.RegistryContext;
 import org.kie.kogito.internal.definition.process.Node;
 import org.kie.kogito.internal.definition.process.NodeContainer;

@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kie.api.definition.process.Process;
-import org.kie.api.runtime.process.DataTransformer;
 import org.kie.kogito.internal.definition.process.Node;
 import org.drools.compiler.lang.descr.ActionDescr;
 import org.drools.compiler.lang.descr.ProcessDescr;
@@ -32,6 +31,7 @@ import org.jbpm.workflow.core.impl.DroolsConsequenceAction;
 import org.jbpm.workflow.core.impl.NodeImpl;
 import org.jbpm.workflow.core.node.ActionNode;
 import org.jbpm.workflow.core.node.Transformation;
+import org.kie.kogito.internal.runtime.process.DataTransformer;
 
 public class ActionNodeBuilder extends ExtendedNodeBuilder {
 

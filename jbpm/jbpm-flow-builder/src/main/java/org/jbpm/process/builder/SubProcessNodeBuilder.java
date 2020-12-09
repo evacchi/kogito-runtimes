@@ -26,8 +26,8 @@ import org.jbpm.workflow.core.node.DataAssociation;
 import org.jbpm.workflow.core.node.SubProcessNode;
 import org.jbpm.workflow.core.node.Transformation;
 import org.kie.api.definition.process.Process;
-import org.kie.api.runtime.process.DataTransformer;
 import org.kie.kogito.internal.definition.process.Node;
+import org.kie.kogito.internal.runtime.process.DataTransformer;
 
 public class SubProcessNodeBuilder extends EventBasedNodeBuilder {
 

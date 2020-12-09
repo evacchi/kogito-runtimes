@@ -20,19 +20,18 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.drools.compiler.compiler.ReturnValueDescr;
-import org.kie.api.definition.process.Process;
-import org.kie.kogito.internal.definition.process.Connection;
-import org.kie.kogito.internal.definition.process.Node;
 import org.drools.compiler.lang.descr.ProcessDescr;
 import org.jbpm.process.builder.dialect.ProcessDialect;
 import org.jbpm.process.builder.dialect.ProcessDialectRegistry;
 import org.jbpm.process.instance.impl.ReturnValueConstraintEvaluator;
-import org.jbpm.process.instance.impl.RuleConstraintEvaluator;
 import org.jbpm.workflow.core.Constraint;
 import org.jbpm.workflow.core.impl.ConnectionRef;
 import org.jbpm.workflow.core.impl.ConstraintImpl;
 import org.jbpm.workflow.core.impl.NodeImpl;
 import org.jbpm.workflow.core.node.Split;
+import org.kie.api.definition.process.Process;
+import org.kie.kogito.internal.definition.process.Connection;
+import org.kie.kogito.internal.definition.process.Node;
 
 public class MultiConditionalSequenceFlowNodeBuilder implements ProcessNodeBuilder {
 
@@ -63,12 +62,13 @@ public class MultiConditionalSequenceFlowNodeBuilder implements ProcessNodeBuild
                 throw new IllegalArgumentException("Could not find outgoing connection");
             }
             if ( "rule".equals( constraint.getType() )) {
-                RuleConstraintEvaluator ruleConstraint = new RuleConstraintEvaluator();
-                ruleConstraint.setDialect( constraint.getDialect() );
-                ruleConstraint.setName( constraint.getName() );
-                ruleConstraint.setPriority( constraint.getPriority() );
-                ruleConstraint.setDefault( constraint.isDefault() );
-                ((NodeImpl) node).setConstraint( outgoingConnection, ruleConstraint );
+                throw new UnsupportedOperationException("rule constraint type is not supported");
+//                RuleConstraintEvaluator ruleConstraint = new RuleConstraintEvaluator();
+//                ruleConstraint.setDialect( constraint.getDialect() );
+//                ruleConstraint.setName( constraint.getName() );
+//                ruleConstraint.setPriority( constraint.getPriority() );
+//                ruleConstraint.setDefault( constraint.isDefault() );
+//                ((NodeImpl) node).setConstraint( outgoingConnection, ruleConstraint );
             } else if ( "code".equals( constraint.getType() ) ) {
                 ReturnValueConstraintEvaluator returnValueConstraint = new ReturnValueConstraintEvaluator();
                 returnValueConstraint.setDialect( constraint.getDialect() );

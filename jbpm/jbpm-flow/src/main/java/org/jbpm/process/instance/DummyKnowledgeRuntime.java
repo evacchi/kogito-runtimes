@@ -23,6 +23,7 @@ import org.drools.core.impl.EnvironmentImpl;
 import org.drools.core.time.TimerService;
 import org.drools.kogito.core.common.InternalKnowledgeRuntime;
 import org.jbpm.workflow.instance.impl.CodegenNodeInstanceFactoryRegistry;
+import org.jbpm.workflow.instance.impl.NodeInstanceFactoryRegistry;
 import org.kie.kogito.internal.KieBase;
 import org.kie.kogito.internal.event.process.ProcessEventListener;
 import org.kie.kogito.internal.event.rule.AgendaEventListener;
@@ -57,13 +58,30 @@ class DummyKnowledgeRuntime implements InternalKnowledgeRuntime {
 
     DummyKnowledgeRuntime(InternalProcessRuntime processRuntime) {
         this.processRuntime = processRuntime;
-        this.environment = new EnvironmentImpl();
-        // register codegen-based node instances factories
-        environment.set("NodeInstanceFactoryRegistry", new CodegenNodeInstanceFactoryRegistry());
+        this.environment = new Environment() {
+                private NodeInstanceFactoryRegistry codegenNodeInstanceFactoryRegistry = new CodegenNodeInstanceFactoryRegistry();
+            @Override
+            public Object get(String identifier) {
+                if (identifier.equals("NodeInstanceFactoryRegistry")) return codegenNodeInstanceFactoryRegistry;
+                else {
+                    throw new IllegalArgumentException(identifier);
+                }
+            }
+
+            @Override
+            public void set(String identifier, Object object) {
+
+            }
+
+            @Override
+            public void setDelegate(Environment delegate) {
+
+            }
+        };
     }
 
     @Override
-    public  Agenda getAgenda() {
+    public Agenda getAgenda() {
         return null;
     }
 
@@ -142,7 +160,11 @@ class DummyKnowledgeRuntime implements InternalKnowledgeRuntime {
         return null;
     }
 
-    
+    @Override
+    public KieBase getKieBase() {
+        return null;
+    }
+
     @Override
     public void registerChannel(String name, Channel channel) {
 
@@ -242,7 +264,7 @@ class DummyKnowledgeRuntime implements InternalKnowledgeRuntime {
     public ProcessInstance startProcessInstance(String processInstanceId) {
         return null;
     }
-    
+
     @Override
     public ProcessInstance startProcessInstance(String processInstanceId, String trigger) {
         return null;
@@ -381,10 +403,5 @@ class DummyKnowledgeRuntime implements InternalKnowledgeRuntime {
     @Override
     public TimerService getTimerService() {
         return null;
-    }
-    
-    @Override
-    public KieBase getKieBase() {
-        
     }
 }

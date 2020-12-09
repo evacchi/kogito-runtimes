@@ -42,7 +42,7 @@ import org.jbpm.ruleflow.core.RuleFlowProcess;
 import org.jbpm.workflow.core.NodeContainer;
 import org.jbpm.workflow.core.node.ForEachNode;
 import org.jbpm.workflow.core.node.WorkItemNode;
-import org.kie.api.definition.process.Process;
+import org.kie.kogito.internal.definition.process.Process;
 import org.kie.kogito.internal.definition.process.Node;
 import org.w3c.dom.Element;
 import org.xml.sax.Attributes;
@@ -78,7 +78,7 @@ public class DefinitionsHandler extends BaseAbstractHandler implements Handler {
         List<Process> processes = ((ProcessBuildData) parser.getData()).getProcesses();
 		Map<String, ItemDefinition> itemDefinitions = (Map<String, ItemDefinition>)
             ((ProcessBuildData) parser.getData()).getMetaData("ItemDefinitions");
-		
+
 		List<Interface> interfaces = (List<Interface>) ((ProcessBuildData) parser.getData()).getMetaData("Interfaces");
 		
         for (Process process : processes) {

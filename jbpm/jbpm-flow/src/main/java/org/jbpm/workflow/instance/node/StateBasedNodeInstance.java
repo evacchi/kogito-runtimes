@@ -19,17 +19,12 @@ package org.jbpm.workflow.instance.node;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
-import org.drools.core.common.KogitoInternalAgenda;
-import org.drools.core.impl.StatefulKnowledgeSessionImpl;
-import org.drools.core.rule.Declaration;
-import org.drools.core.spi.Activation;
 import org.jbpm.process.core.ContextContainer;
 import org.jbpm.process.core.context.variable.Variable;
 import org.jbpm.process.core.context.variable.VariableScope;
@@ -37,7 +32,6 @@ import org.jbpm.process.core.timer.BusinessCalendar;
 import org.jbpm.process.core.timer.DateTimeUtils;
 import org.jbpm.process.core.timer.Timer;
 import org.jbpm.process.instance.InternalProcessRuntime;
-import org.jbpm.process.instance.ProcessInstance;
 import org.jbpm.process.instance.context.variable.VariableScopeInstance;
 import org.jbpm.process.instance.impl.Action;
 import org.jbpm.util.PatternConstants;
@@ -47,7 +41,6 @@ import org.jbpm.workflow.instance.impl.ExtendedNodeInstanceImpl;
 import org.jbpm.workflow.instance.impl.MVELProcessHelper;
 import org.jbpm.workflow.instance.impl.NodeInstanceResolverFactory;
 import org.jbpm.workflow.instance.impl.WorkflowProcessInstanceImpl;
-import org.kie.kogito.internal.event.rule.MatchCreatedEvent;
 import org.kie.kogito.internal.runtime.KieRuntime;
 import org.kie.kogito.internal.runtime.process.EventListener;
 import org.kie.kogito.internal.runtime.process.NodeInstance;
@@ -60,6 +53,8 @@ import org.kie.kogito.jobs.ProcessInstanceJobDescription;
 import org.kie.kogito.timer.TimerInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.jbpm.workflow.core.Node.CONNECTION_DEFAULT_TYPE;
 
 public abstract class StateBasedNodeInstance extends ExtendedNodeInstanceImpl implements EventBasedNodeInstanceInterface,
                                                                                          EventListener {
@@ -103,13 +98,13 @@ public abstract class StateBasedNodeInstance extends ExtendedNodeInstanceImpl im
         if (getEventBasedNode().getBoundaryEvents() != null) {
 
             for (String name : getEventBasedNode().getBoundaryEvents()) {
-                boolean isActive = ((KogitoInternalAgenda) getProcessInstance().getKnowledgeRuntime().getAgenda())
-                        .isRuleActiveInRuleFlowGroup("DROOLS_SYSTEM", name, getProcessInstance().getId());
-                if (isActive) {
-                    getProcessInstance().getKnowledgeRuntime().signalEvent(name, null);
-                } else {
+//                boolean isActive = ((KogitoInternalAgenda) getProcessInstance().getKnowledgeRuntime().getAgenda())
+//                        .isRuleActiveInRuleFlowGroup("DROOLS_SYSTEM", name, getProcessInstance().getId());
+//                if (isActive) {
+//                    getProcessInstance().getKnowledgeRuntime().signalEvent(name, null);
+//                } else {
                     addActivationListener();
-                }
+//                }
             }
         }
 
@@ -304,11 +299,11 @@ public abstract class StateBasedNodeInstance extends ExtendedNodeInstanceImpl im
         } else if (("slaViolation:" + getId()).equals(type)) {
 
             handleSLAViolation();
-        } else if (type.equals(getActivationType()) && event instanceof MatchCreatedEvent) {
-            String name = ((MatchCreatedEvent) event).getMatch().getRule().getName();
-            if (checkProcessInstance((Activation) ((MatchCreatedEvent) event).getMatch())) {
-                ((MatchCreatedEvent) event).getKieRuntime().signalEvent(name, null);
-            }
+//        } else if (type.equals(getActivationType()) && event instanceof MatchCreatedEvent) {
+//            String name = ((MatchCreatedEvent) event).getMatch().getRule().getName();
+//            if (checkProcessInstance((Activation) ((MatchCreatedEvent) event).getMatch())) {
+//                ((MatchCreatedEvent) event).getKieRuntime().signalEvent(name, null);
+//            }
         }
     }
 
@@ -430,22 +425,22 @@ public abstract class StateBasedNodeInstance extends ExtendedNodeInstanceImpl im
         getProcessInstance().removeEventListener(getActivationType(), this, true);
     }
 
-    protected boolean checkProcessInstance(Activation activation) {
-        final Map<?, ?> declarations = activation.getSubRule().getOuterDeclarations();
-        for (Iterator<?> it = declarations.values().iterator(); it.hasNext(); ) {
-            Declaration declaration = (Declaration) it.next();
-            if ("processInstance".equals(declaration.getIdentifier())
-                    || "org.kie.api.runtime.process.WorkflowProcessInstance".equals(declaration.getTypeName())) {
-                Object value = declaration.getValue(
-                        ((StatefulKnowledgeSessionImpl) getProcessInstance().getKnowledgeRuntime()).getInternalWorkingMemory(),
-                        activation.getTuple().get(declaration).getObject());
-                if (value instanceof ProcessInstance) {
-                    return ((ProcessInstance) value).getId().equals(getProcessInstance().getId());
-                }
-            }
-        }
-        return true;
-    }
+//    protected boolean checkProcessInstance(Activation activation) {
+//        final Map<?, ?> declarations = activation.getSubRule().getOuterDeclarations();
+//        for (Iterator<?> it = declarations.values().iterator(); it.hasNext(); ) {
+//            Declaration declaration = (Declaration) it.next();
+//            if ("processInstance".equals(declaration.getIdentifier())
+//                    || "org.kie.api.runtime.process.WorkflowProcessInstance".equals(declaration.getTypeName())) {
+//                Object value = declaration.getValue(
+//                        ((StatefulKnowledgeSessionImpl) getProcessInstance().getKnowledgeRuntime()).getInternalWorkingMemory(),
+//                        activation.getTuple().get(declaration).getObject());
+//                if (value instanceof ProcessInstance) {
+//                    return ((ProcessInstance) value).getId().equals(getProcessInstance().getId());
+//                }
+//            }
+//        }
+//        return true;
+//    }
 
     protected boolean checkDeclarationMatch(Match match, String matchVariable) {
         if (matchVariable == null) {

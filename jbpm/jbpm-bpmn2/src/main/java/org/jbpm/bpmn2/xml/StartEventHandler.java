@@ -41,7 +41,7 @@ import org.jbpm.workflow.core.node.EventTrigger;
 import org.jbpm.workflow.core.node.StartNode;
 import org.jbpm.workflow.core.node.Transformation;
 import org.jbpm.workflow.core.node.Trigger;
-import org.kie.api.runtime.process.DataTransformer;
+import org.kie.kogito.internal.runtime.process.DataTransformer;
 import org.w3c.dom.Element;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

@@ -70,7 +70,6 @@ import org.jbpm.workflow.core.node.SubProcessNode;
 import org.jbpm.workflow.core.node.ThrowLinkNode;
 import org.jbpm.workflow.core.node.TimerNode;
 import org.jbpm.workflow.core.node.WorkItemNode;
-import org.kie.api.definition.process.Process;
 import org.kie.kogito.internal.definition.process.Connection;
 import org.kie.kogito.internal.definition.process.WorkflowProcess;
 
@@ -272,7 +271,7 @@ public class ProcessVisitor extends AbstractVisitor {
                 new StringLiteralExpr(getOrDefault((String) connection.getMetaData().get(UNIQUE_ID), ""))));
     }
 
-    private void visitCompensationScope(Process process, BlockStmt body) {
+    private void visitCompensationScope(WorkflowProcess process, BlockStmt body) {
         Boolean isCompensation = (Boolean) process.getMetaData().get(Metadata.COMPENSATION);
         if(Boolean.TRUE.equals(isCompensation)) {
             Context context = ((org.jbpm.workflow.core.WorkflowProcess) process).getDefaultContext(CompensationScope.COMPENSATION_SCOPE);

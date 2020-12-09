@@ -20,9 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kie.api.definition.process.Process;
-import org.kie.api.runtime.process.DataTransformer;
-import org.kie.kogito.internal.definition.process.Node;
 import org.drools.compiler.lang.descr.ProcessDescr;
 import org.jbpm.process.builder.dialect.ProcessDialect;
 import org.jbpm.process.builder.dialect.ProcessDialectRegistry;
@@ -32,6 +29,9 @@ import org.jbpm.workflow.core.node.Assignment;
 import org.jbpm.workflow.core.node.DataAssociation;
 import org.jbpm.workflow.core.node.Transformation;
 import org.jbpm.workflow.core.node.WorkItemNode;
+import org.kie.api.definition.process.Process;
+import org.kie.kogito.internal.definition.process.Node;
+import org.kie.kogito.internal.runtime.process.DataTransformer;
 
 public class WorkItemNodeBuilder extends EventBasedNodeBuilder {
 

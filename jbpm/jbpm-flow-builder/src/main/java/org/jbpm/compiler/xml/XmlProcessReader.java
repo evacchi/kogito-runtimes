@@ -44,7 +44,7 @@ public class XmlProcessReader {
                                                                               "Node Info: id:{4} name:{5} \n" +
                                                                               "Parser message: {6}");
 
-    private List<Process>        processes;
+    private List<Process> processes;
 
     public XmlProcessReader(final SemanticModules modules, ClassLoader classLoader) {
         this( modules, classLoader, null );

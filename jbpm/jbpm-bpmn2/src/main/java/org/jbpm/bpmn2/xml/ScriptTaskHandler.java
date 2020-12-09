@@ -32,7 +32,7 @@ import org.jbpm.workflow.core.node.ActionNode;
 import org.jbpm.workflow.core.node.Assignment;
 import org.jbpm.workflow.core.node.DataAssociation;
 import org.jbpm.workflow.core.node.Transformation;
-import org.kie.api.runtime.process.DataTransformer;
+import org.kie.kogito.internal.runtime.process.DataTransformer;
 import org.w3c.dom.Element;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

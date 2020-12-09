@@ -124,14 +124,14 @@ public class DynamicNodeInstance extends CompositeContextNodeInstance {
         }
     }
 
-    @Override
-    public void triggerCompleted(String outType) {
-        if (getProcessInstance().getKnowledgeRuntime().getAgenda() != null) {
-            ((InternalAgenda) getProcessInstance().getKnowledgeRuntime().getAgenda())
-                    .deactivateRuleFlowGroup(getRuleFlowGroupName());
-        }
-        super.triggerCompleted(outType);
-    }
+//    @Override
+//    public void triggerCompleted(String outType) {
+//        if (getProcessInstance().getKnowledgeRuntime().getAgenda() != null) {
+//            ((InternalAgenda) getProcessInstance().getKnowledgeRuntime().getAgenda())
+//                    .deactivateRuleFlowGroup(getRuleFlowGroupName());
+//        }
+//        super.triggerCompleted(outType);
+//    }
 
     protected boolean isTerminated(NodeInstance from) {
         if (from instanceof EndNodeInstance) {

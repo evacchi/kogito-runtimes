@@ -25,9 +25,6 @@ import java.util.Map;
 
 import org.drools.core.common.InternalWorkingMemory;
 import org.drools.core.common.WorkingMemoryAction;
-import org.drools.core.definitions.rule.impl.RuleImpl;
-import org.drools.core.event.DefaultAgendaEventListener;
-import org.drools.core.event.RuleFlowGroupDeactivatedEvent;
 import org.drools.core.marshalling.impl.MarshallerReaderContext;
 import org.drools.core.marshalling.impl.MarshallerWriteContext;
 import org.drools.core.phreak.PropagationEntry;
@@ -48,7 +45,6 @@ import org.jbpm.workflow.core.node.Trigger;
 import org.kie.kogito.internal.definition.process.Node;
 import org.kie.kogito.internal.definition.process.Process;
 import org.kie.kogito.internal.event.process.ProcessEventListener;
-import org.kie.kogito.internal.event.rule.MatchCreatedEvent;
 import org.kie.kogito.internal.process.CorrelationKey;
 import org.kie.kogito.internal.runtime.process.EventListener;
 import org.kie.kogito.internal.runtime.process.ProcessInstance;
@@ -385,53 +381,53 @@ public class LightProcessRuntime implements InternalProcessRuntime {
     }
 
     private void initProcessActivationListener() {
-        runtimeContext.addEventListener(new DefaultAgendaEventListener() {
-            @Override
-            public void matchCreated(MatchCreatedEvent event) {
-                String ruleFlowGroup = ((RuleImpl) event.getMatch().getRule()).getRuleFlowGroup();
-                if ("DROOLS_SYSTEM".equals(ruleFlowGroup)) {
-                    // new activations of the rule associate with a state node
-                    // signal process instances of that state node
-                    String ruleName = event.getMatch().getRule().getName();
-                    if (ruleName.startsWith("RuleFlowStateNode-")) {
-                        int index = ruleName.indexOf('-',
-                                                     18);
-                        index = ruleName.indexOf('-',
-                                                 index + 1);
-                        String eventType = ruleName.substring(0,
-                                                              index);
-
-                        runtimeContext.queueWorkingMemoryAction(new SignalManagerSignalAction(eventType, event));
-                    } else if (ruleName.startsWith("RuleFlowStateEventSubProcess-")
-                            || ruleName.startsWith("RuleFlowStateEvent-")
-                            || ruleName.startsWith("RuleFlow-Milestone-")
-                            || ruleName.startsWith("RuleFlow-AdHocComplete-")
-                            || ruleName.startsWith("RuleFlow-AdHocActivate-")) {
-                        runtimeContext.queueWorkingMemoryAction(new SignalManagerSignalAction(ruleName, event));
-                    }
-                } else {
-                    String ruleName = event.getMatch().getRule().getName();
-                    if (ruleName.startsWith("RuleFlow-Start-")) {
-                        String processId = ruleName.replace("RuleFlow-Start-", "");
-
-                        startProcessWithParamsAndTrigger(processId, null, "conditional", true);
-                    }
-                }
-            }
-        });
-
-        runtimeContext.addEventListener(new DefaultAgendaEventListener() {
-            @Override
-            public void afterRuleFlowGroupDeactivated(final RuleFlowGroupDeactivatedEvent event) {
-                if (runtimeContext instanceof StatefulKnowledgeSession) {
-                    signalManager.signalEvent("RuleFlowGroup_" + event.getRuleFlowGroup().getName() + "_" + ((StatefulKnowledgeSession) runtimeContext).getIdentifier(),
-                                              null);
-                } else {
-                    signalManager.signalEvent("RuleFlowGroup_" + event.getRuleFlowGroup().getName(),
-                                              null);
-                }
-            }
-        });
+//        runtimeContext.addEventListener(new DefaultAgendaEventListener() {
+//            @Override
+//            public void matchCreated(MatchCreatedEvent event) {
+//                String ruleFlowGroup = ((RuleImpl) event.getMatch().getRule()).getRuleFlowGroup();
+//                if ("DROOLS_SYSTEM".equals(ruleFlowGroup)) {
+//                    // new activations of the rule associate with a state node
+//                    // signal process instances of that state node
+//                    String ruleName = event.getMatch().getRule().getName();
+//                    if (ruleName.startsWith("RuleFlowStateNode-")) {
+//                        int index = ruleName.indexOf('-',
+//                                                     18);
+//                        index = ruleName.indexOf('-',
+//                                                 index + 1);
+//                        String eventType = ruleName.substring(0,
+//                                                              index);
+//
+//                        runtimeContext.queueWorkingMemoryAction(new SignalManagerSignalAction(eventType, event));
+//                    } else if (ruleName.startsWith("RuleFlowStateEventSubProcess-")
+//                            || ruleName.startsWith("RuleFlowStateEvent-")
+//                            || ruleName.startsWith("RuleFlow-Milestone-")
+//                            || ruleName.startsWith("RuleFlow-AdHocComplete-")
+//                            || ruleName.startsWith("RuleFlow-AdHocActivate-")) {
+//                        runtimeContext.queueWorkingMemoryAction(new SignalManagerSignalAction(ruleName, event));
+//                    }
+//                } else {
+//                    String ruleName = event.getMatch().getRule().getName();
+//                    if (ruleName.startsWith("RuleFlow-Start-")) {
+//                        String processId = ruleName.replace("RuleFlow-Start-", "");
+//
+//                        startProcessWithParamsAndTrigger(processId, null, "conditional", true);
+//                    }
+//                }
+//            }
+//        });
+//
+//        runtimeContext.addEventListener(new DefaultAgendaEventListener() {
+//            @Override
+//            public void afterRuleFlowGroupDeactivated(final RuleFlowGroupDeactivatedEvent event) {
+//                if (runtimeContext instanceof StatefulKnowledgeSession) {
+//                    signalManager.signalEvent("RuleFlowGroup_" + event.getRuleFlowGroup().getName() + "_" + ((StatefulKnowledgeSession) runtimeContext).getIdentifier(),
+//                                              null);
+//                } else {
+//                    signalManager.signalEvent("RuleFlowGroup_" + event.getRuleFlowGroup().getName(),
+//                                              null);
+//                }
+//            }
+//        });
     }
 
     private void startProcessWithParamsAndTrigger(String processId, Map<String, Object> params, String type, boolean dispose) {
