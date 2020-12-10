@@ -240,6 +240,7 @@ public abstract class NodeInstanceImpl implements org.jbpm.workflow.instance.Nod
     protected void executeAction(Action action) {
         KogitoProcessContext context = new KogitoProcessContext(getProcessInstance().getKnowledgeRuntime());
         context.setNodeInstance(this);
+        context.setProcessInstance(getProcessInstance());
         try {
             action.execute(context);
         } catch (Exception e) {

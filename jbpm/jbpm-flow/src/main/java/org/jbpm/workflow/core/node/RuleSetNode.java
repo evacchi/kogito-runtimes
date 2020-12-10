@@ -30,9 +30,9 @@ import org.jbpm.process.core.ContextContainer;
 import org.jbpm.process.core.context.AbstractContext;
 import org.jbpm.process.core.context.variable.Mappable;
 import org.jbpm.process.core.impl.ContextContainerImpl;
+import org.kie.api.runtime.KieRuntime;
 import org.kie.kogito.decision.DecisionModel;
 import org.kie.kogito.internal.definition.process.Connection;
-import org.kie.kogito.internal.runtime.KieRuntime;
 import org.kie.kogito.rules.RuleUnitData;
 
 /**
@@ -234,7 +234,7 @@ public class RuleSetNode extends StateBasedNode implements ContextContainer,
         this.ruleUnitFactory = (RuleUnitFactory<RuleUnitData>) ruleUnitFactory;
     }
 
-    public void setKieRuntime(Supplier<KieRuntime> kieRuntime) {
+    public void setKieRuntime(Supplier<org.kie.api.runtime.KieRuntime> kieRuntime) {
         this.kieRuntime = kieRuntime;
     }
 

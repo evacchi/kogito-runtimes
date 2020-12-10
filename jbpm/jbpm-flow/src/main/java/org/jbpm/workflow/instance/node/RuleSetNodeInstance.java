@@ -53,6 +53,7 @@ import org.kie.dmn.api.core.DMNContext;
 import org.kie.dmn.api.core.DMNMessage.Severity;
 import org.kie.dmn.api.core.DMNResult;
 import org.kie.dmn.api.core.DMNRuntime;
+import org.kie.dmn.core.impl.DMNRuntimeImpl;
 import org.kie.kogito.decision.DecisionModel;
 import org.kie.kogito.dmn.DmnDecisionModel;
 import org.kie.kogito.internal.runtime.KieRuntime;
@@ -104,21 +105,11 @@ public class RuleSetNodeInstance extends StateBasedNodeInstance implements Event
             }
             RuleSetNode ruleSetNode = getRuleSetNode();
 
-            KieRuntime kruntime = Optional.ofNullable(getRuleSetNode().getKieRuntime()).orElse(() -> getProcessInstance().getKnowledgeRuntime()).get();
             Map<String, Object> inputs = evaluateParameters(ruleSetNode);
 
             RuleSetNode.RuleType ruleType = ruleSetNode.getRuleType();
             if (ruleType.isDecision()) {
-                RuleSetNode.RuleType.Decision decisionModel = (RuleSetNode.RuleType.Decision) ruleType;
-                String namespace = resolveVariable(decisionModel.getNamespace());
-                String model = resolveVariable(decisionModel.getModel());
-
-                DecisionModel modelInstance =
-                        Optional.ofNullable(getRuleSetNode().getDecisionModel())
-                                .orElse(() -> new DmnDecisionModel(
-                                        ((KieSession) kruntime).getKieRuntime(DMNRuntime.class),
-                                        namespace,
-                                        model)).get();
+                DecisionModel modelInstance = getRuleSetNode().getDecisionModel().get();
 
                 DMNContext context = modelInstance.newContext(inputs);
                 DMNResult dmnResult = modelInstance.evaluateAll(context);
@@ -257,8 +248,8 @@ public class RuleSetNodeInstance extends StateBasedNodeInstance implements Event
     public void signalEvent(String type, Object event) {
         if (getRuleSetEventType().equals(type)) {
             removeEventListeners();
-            KieRuntime kruntime = Optional.ofNullable(getRuleSetNode().getKieRuntime()).orElse(() -> getProcessInstance().getKnowledgeRuntime()).get();
-            retractFacts(kruntime);
+//            KieRuntime kruntime = Optional.ofNullable(getRuleSetNode().getKieRuntime()).orElse(() -> getProcessInstance().getKnowledgeRuntime()).get();
+//            retractFacts(kruntime);
             triggerCompleted();
         }
     }
