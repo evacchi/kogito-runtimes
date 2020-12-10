@@ -15,29 +15,39 @@
 
 package org.drools.kogito.core.common;
 
-import org.drools.core.common.EndOperationListener;
-import org.drools.core.common.WorkingMemoryAction;
-import org.drools.core.time.TimerService;
 import org.drools.kogito.core.runtime.process.InternalProcessRuntime;
 import org.kie.kogito.internal.runtime.KieRuntime;
+import org.kie.kogito.internal.runtime.process.ProcessInstance;
+import org.kie.kogito.internal.runtime.process.WorkItemManager;
 
 public interface InternalKnowledgeRuntime extends KieRuntime {
 
-    TimerService getTimerService();
+    InternalProcessRuntime getProcessRuntime();
+
+    WorkItemManager getWorkItemManager();
+
 
     void startOperation();
 
     void endOperation();
 
-    void executeQueuedActions();
 
-    void queueWorkingMemoryAction(WorkingMemoryAction action);
 
-    InternalProcessRuntime getProcessRuntime();
-
-    void setIdentifier(long id);
-
-    void setEndOperationListener(EndOperationListener listener);
-
-    long getLastIdleTimestamp();
+//    TimerService getTimerService();
+//
+//    void startOperation();
+//
+//    void endOperation();
+//
+//    void executeQueuedActions();
+//
+//    void queueWorkingMemoryAction(WorkingMemoryAction action);
+//
+//    InternalProcessRuntime getProcessRuntime();
+//
+//    void setIdentifier(long id);
+//
+//    void setEndOperationListener(EndOperationListener listener);
+//
+//    long getLastIdleTimestamp();
 }

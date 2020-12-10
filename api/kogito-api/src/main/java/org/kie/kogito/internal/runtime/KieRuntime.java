@@ -16,50 +16,15 @@
 
 package org.kie.kogito.internal.runtime;
 
-import java.util.Map;
-
 import org.kie.kogito.internal.KieBase;
-import org.kie.kogito.internal.event.KieRuntimeEventManager;
 import org.kie.kogito.internal.runtime.process.ProcessRuntime;
 import org.kie.kogito.internal.runtime.rule.RuleRuntime;
-import org.kie.kogito.internal.time.SessionClock;
 
-public interface KieRuntime
-    extends
-    RuleRuntime,
-    ProcessRuntime,
-    KieRuntimeEventManager {
-
-    /**
-     * @return the session clock instance assigned to this session
-     */
-    <T extends SessionClock> T getSessionClock();
-
-    /**
-     * Sets a global value in this session
-     * @param identifier the global identifier
-     * @param value the value assigned to the global identifier
-     */
-    void setGlobal(String identifier,
-                   Object value);
-
-    Object getGlobal(String identifier);
-
-    Globals getGlobals();
-
-    Calendars getCalendars();
+public interface KieRuntime extends ProcessRuntime,
+                                    RuleRuntime {
 
     Environment getEnvironment();
-    
+
     KieBase getKieBase();
 
-
-    void registerChannel(String name,
-                         Channel channel);
-
-    void unregisterChannel(String name);
-
-    Map< String, Channel> getChannels();
-
-    KieSessionConfiguration getSessionConfiguration();
 }

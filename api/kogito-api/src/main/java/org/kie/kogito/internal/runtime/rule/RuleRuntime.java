@@ -16,68 +16,27 @@
 
 package org.kie.kogito.internal.runtime.rule;
 
-import java.util.Collection;
-
 import org.kie.api.runtime.rule.Agenda;
 
-/**
- * The {@link RuleRuntime} is a super-interface for all {@link org.kie.api.runtime.KieSession}s.
- * Although, users are encouraged to use {@link org.kie.api.runtime.KieSession} or {@link org.kie.api.runtime.KieRuntime}
- * interface instead of {@link RuleRuntime} interface, specially because of the <code>dispose()</code> method
- * that is only available in the {@link org.kie.api.runtime.KieSession} interface.
- *
- * @see org.kie.api.runtime.KieSession
- */
-public interface RuleRuntime
-    extends
-    EntryPoint {
+@Deprecated
+public interface RuleRuntime {
 
-    /**
-     * <p>Request the engine to stop firing rules. If the engine is currently firing a rule, it will
-     * finish executing this rule's consequence before stopping.</p>
-     * <p>This method will not remove active Matches from the Agenda.
-     * In case the application later wants to continue firing rules from the point where it stopped,
-     * it should just call <code>org.kie.api.runtime.KieSession#fireAllRules()</code> or
-     * <code>org.kie.api.runtime.KieSession#fireUntilHalt()</code> again.</p>
-     */
-    void halt();
-
-    /**
-     * @return a reference to this session's <code>Agenda</code>.
-     */
+    @Deprecated
     Agenda getAgenda();
 
-    /**
-     * @return the WorkingMemoryEntryPoint instance associated with the given name.
-     */
-    EntryPoint getEntryPoint(String name);
+    @Deprecated
+    Object getGlobal(String name);
 
-    /**
-     * Returns a collection of all available working memory entry points
-     * for this session.
-     *
-     * @return the collection of all available entry points for this session
-     */
-    Collection< ? extends EntryPoint> getEntryPoints();
+    @Deprecated
+    void insert(Object value);
 
-    /**
-     * Retrieve the QueryResults of the specified query and arguments
-     *
-     * @param query
-     *            The name of the query.
-     *
-     * @param arguments
-     *            The arguments used for the query
-     *
-     * @return The QueryResults of the specified query.
-     *         If no results match the query it is empty.
-     *
-     * @throws RuntimeException If the query does not exist
-     */
-    QueryResults getQueryResults(String query,
-                                 Object... arguments);
+    @Deprecated
+    Object getFactHandle(Object workItemNodeInstance);
 
-    LiveQuery openLiveQuery(String query,
-                            Object[] arguments,
-                            ViewChangedEventListener listener);
+    @Deprecated
+    void update(Object factHandle, Object value);
+
+    @Deprecated
+    void delete(Object factHandle);
+
 }

@@ -99,7 +99,6 @@ public interface StatefulKnowledgeSession
     extends
     KieSession, KieRuntime {
 
-    @Override
     KieBase getKieBase();
 
 }
