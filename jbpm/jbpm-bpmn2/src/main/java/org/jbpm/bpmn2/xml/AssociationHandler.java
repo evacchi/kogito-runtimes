@@ -31,7 +31,7 @@ import org.jbpm.workflow.core.Node;
 import org.jbpm.workflow.core.NodeContainer;
 import org.jbpm.workflow.core.node.CompositeContextNode;
 import org.jbpm.workflow.core.node.CompositeNode;
-import org.kie.api.definition.process.Process;
+import org.kie.kogito.internal.definition.process.Process;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
