@@ -70,7 +70,7 @@ import org.kie.kogito.internal.definition.process.Connection;
 import org.kie.kogito.internal.definition.process.Node;
 import org.kie.kogito.internal.definition.process.NodeContainer;
 import org.kie.kogito.internal.definition.process.Process;
-import org.kie.kogito.internal.io.Resource;
+import org.kie.api.io.Resource;
 import org.mvel2.ErrorDetail;
 
 /**

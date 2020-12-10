@@ -23,7 +23,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import org.jbpm.ruleflow.core.RuleFlowProcess;
 import org.jbpm.ruleflow.core.validation.RuleFlowProcessValidator;
 import org.kie.kogito.internal.definition.process.Process;
-import org.kie.kogito.internal.io.Resource;
+import org.kie.api.io.Resource;
 
 public class ProcessValidatorRegistry {
 

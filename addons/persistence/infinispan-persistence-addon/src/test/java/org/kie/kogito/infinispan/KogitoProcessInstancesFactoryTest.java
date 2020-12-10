@@ -70,7 +70,7 @@ class KogitoProcessInstancesFactoryTest {
         }
 
         @Override
-        public org.kie.api.definition.process.Process process() {
+        public org.kie.kogito.internal.definition.process.Process process() {
             return new WorkflowProcessImpl();
         }
 

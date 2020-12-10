@@ -12,8 +12,6 @@ import org.kie.api.runtime.rule.Agenda;
 import org.kie.api.runtime.rule.AgendaFilter;
 import org.kie.kogito.internal.KieBase;
 import org.kie.kogito.internal.event.process.ProcessEventListener;
-import org.kie.kogito.internal.event.rule.AgendaEventListener;
-import org.kie.kogito.internal.event.rule.RuleRuntimeEventListener;
 import org.kie.kogito.internal.logger.KieRuntimeLogger;
 import org.kie.kogito.internal.runtime.Calendars;
 import org.kie.kogito.internal.runtime.Channel;
@@ -306,46 +304,6 @@ public class KogitoInternalKnowledgeRuntime implements InternalKnowledgeRuntime 
     public KieRuntimeLogger getLogger() {
         throw new UnsupportedOperationException();
         //return impl.getLogger();
-    }
-
-    @Override
-    public void addEventListener(RuleRuntimeEventListener listener) {
-        throw new UnsupportedOperationException();
-        //impl.addEventListener(listener);
-
-    }
-
-    @Override
-    public void removeEventListener(RuleRuntimeEventListener listener) {
-        throw new UnsupportedOperationException();
-        //impl.removeEventListener(listener);
-
-    }
-
-    @Override
-    public Collection<RuleRuntimeEventListener> getRuleRuntimeEventListeners() {
-        throw new UnsupportedOperationException();
-        //return impl.getRuleRuntimeEventListeners();
-    }
-
-    @Override
-    public void addEventListener(AgendaEventListener listener) {
-        throw new UnsupportedOperationException();
-        //impl.addEventListener(listener);
-
-    }
-
-    @Override
-    public void removeEventListener(AgendaEventListener listener) {
-        throw new UnsupportedOperationException();
-       //impl.removeEventListener(listener);
-
-    }
-
-    @Override
-    public Collection<AgendaEventListener> getAgendaEventListeners() {
-        throw new UnsupportedOperationException();
-        //return impl.getAgendaEventListeners();
     }
 
     @Override

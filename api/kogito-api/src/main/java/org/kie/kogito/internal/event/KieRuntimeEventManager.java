@@ -20,7 +20,6 @@ package org.kie.kogito.internal.event;
 
 
 import org.kie.kogito.internal.event.process.ProcessEventManager;
-import org.kie.kogito.internal.event.rule.RuleRuntimeEventManager;
 import org.kie.kogito.internal.logger.KieRuntimeLogger;
 
 /**
@@ -28,7 +27,6 @@ import org.kie.kogito.internal.logger.KieRuntimeLogger;
  */
 public interface KieRuntimeEventManager
     extends
-    RuleRuntimeEventManager,
     ProcessEventManager {
 
     /**

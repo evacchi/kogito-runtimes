@@ -28,8 +28,6 @@ import org.kie.api.runtime.rule.Agenda;
 import org.kie.api.runtime.rule.AgendaFilter;
 import org.kie.kogito.internal.KieBase;
 import org.kie.kogito.internal.event.process.ProcessEventListener;
-import org.kie.kogito.internal.event.rule.AgendaEventListener;
-import org.kie.kogito.internal.event.rule.RuleRuntimeEventListener;
 import org.kie.kogito.internal.logger.KieRuntimeLogger;
 import org.kie.kogito.internal.runtime.Calendars;
 import org.kie.kogito.internal.runtime.Channel;
@@ -205,36 +203,6 @@ class DummyKnowledgeRuntime implements InternalKnowledgeRuntime {
 
     @Override
     public Collection<ProcessEventListener> getProcessEventListeners() {
-        return null;
-    }
-
-    @Override
-    public void addEventListener(RuleRuntimeEventListener listener) {
-
-    }
-
-    @Override
-    public void removeEventListener(RuleRuntimeEventListener listener) {
-
-    }
-
-    @Override
-    public Collection<RuleRuntimeEventListener> getRuleRuntimeEventListeners() {
-        return null;
-    }
-
-    @Override
-    public void addEventListener(AgendaEventListener listener) {
-
-    }
-
-    @Override
-    public void removeEventListener(AgendaEventListener listener) {
-
-    }
-
-    @Override
-    public Collection<AgendaEventListener> getAgendaEventListeners() {
         return null;
     }
 

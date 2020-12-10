@@ -21,8 +21,8 @@ import org.jbpm.workflow.instance.impl.WorkflowProcessInstanceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.kie.api.event.process.ProcessStartedEvent;
-import org.kie.api.runtime.process.ProcessInstance;
+import org.kie.kogito.internal.event.process.ProcessStartedEvent;
+import org.kie.kogito.internal.runtime.process.ProcessInstance;
 import org.kie.kogito.monitoring.core.MonitoringRegistry;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -51,7 +51,7 @@ public class MetricsProcessEventListenerTest {
         ProcessInstance processInstanceMock = mock(WorkflowProcessInstanceImpl.class);
         when(processInstanceMock.getProcessId()).thenReturn("myProcessId");
 
-        ProcessStartedEvent processStartedEvent = mock(ProcessStartedEvent.class);
+        org.kie.kogito.internal.event.process.ProcessStartedEvent processStartedEvent = mock(ProcessStartedEvent.class);
         when(processStartedEvent.getProcessInstance()).thenReturn(processInstanceMock);
 
         // Act

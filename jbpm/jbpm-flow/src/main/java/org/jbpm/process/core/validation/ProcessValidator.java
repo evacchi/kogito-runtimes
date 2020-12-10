@@ -17,7 +17,7 @@
 package org.jbpm.process.core.validation;
 
 import org.kie.kogito.internal.definition.process.Process;
-import org.kie.kogito.internal.io.Resource;
+import org.kie.api.io.Resource;
 
 /**
  * A validator for validating a RuleFlow process. 

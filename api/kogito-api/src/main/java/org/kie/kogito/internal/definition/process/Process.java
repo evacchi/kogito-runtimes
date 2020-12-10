@@ -19,7 +19,7 @@ package org.kie.kogito.internal.definition.process;
 import java.util.Map;
 
 import org.kie.kogito.internal.KieDefinition;
-import org.kie.kogito.internal.io.Resource;
+import org.kie.api.io.Resource;
 
 
 
