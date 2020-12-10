@@ -71,7 +71,7 @@ public class KogitoPackageSources extends PackageSources {
             sources.queries = new HashMap<>();
             for (AbstractRuleUnitDescription ruleUnit : sources.ruleUnits) {
                 String ruleUnitCanonicalName = ruleUnit.getCanonicalName();
-                sources.queries.put(ruleUnitCanonicalName, pkgModel.getQueriesInRuleUnit(ruleUnit.getRuleUnitClass()));
+                sources.queries.put(ruleUnitCanonicalName, pkgModel.getQueriesInRuleUnit(ruleUnit));
             }
         }
 
