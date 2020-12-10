@@ -25,6 +25,8 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
+import org.drools.core.common.InternalAgenda;
+import org.drools.core.common.KogitoInternalAgenda;
 import org.jbpm.process.core.ContextContainer;
 import org.jbpm.process.core.context.variable.Variable;
 import org.jbpm.process.core.context.variable.VariableScope;
@@ -98,13 +100,13 @@ public abstract class StateBasedNodeInstance extends ExtendedNodeInstanceImpl im
         if (getEventBasedNode().getBoundaryEvents() != null) {
 
             for (String name : getEventBasedNode().getBoundaryEvents()) {
-//                boolean isActive = ((KogitoInternalAgenda) getProcessInstance().getKnowledgeRuntime().getAgenda())
-//                        .isRuleActiveInRuleFlowGroup("DROOLS_SYSTEM", name, getProcessInstance().getId());
-//                if (isActive) {
-//                    getProcessInstance().getKnowledgeRuntime().signalEvent(name, null);
-//                } else {
+                boolean isActive = ((KogitoInternalAgenda) getProcessInstance().getKnowledgeRuntime().getAgenda())
+                        .isRuleActiveInRuleFlowGroup("DROOLS_SYSTEM", name, getProcessInstance().getId());
+                if (isActive) {
+                    getProcessInstance().getKnowledgeRuntime().signalEvent(name, null);
+                } else {
                     addActivationListener();
-//                }
+                }
             }
         }
 

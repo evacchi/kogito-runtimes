@@ -18,6 +18,8 @@ package org.kie.kogito.internal.runtime.rule;
 
 import java.util.Collection;
 
+import org.kie.api.runtime.rule.Agenda;
+
 /**
  * The {@link RuleRuntime} is a super-interface for all {@link org.kie.api.runtime.KieSession}s.
  * Although, users are encouraged to use {@link org.kie.api.runtime.KieSession} or {@link org.kie.api.runtime.KieRuntime}

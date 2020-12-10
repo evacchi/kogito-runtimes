@@ -16,6 +16,7 @@
 
 package org.kie.kogito.internal.runtime.rule;
 
+import org.kie.api.runtime.rule.AgendaFilter;
 
 /**
  This interface adds methods available to the {@link org.kie.api.runtime.KieSession} beyond what the WorkingMemory provides.

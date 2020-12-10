@@ -27,6 +27,12 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 
+import org.drools.core.common.DefaultAgenda;
+import org.drools.core.common.InternalAgenda;
+import org.drools.core.common.InternalKnowledgeRuntime;
+import org.drools.core.common.InternalRuleFlowGroup;
+import org.drools.core.impl.StatefulKnowledgeSessionImpl;
+import org.drools.core.spi.RuleFlowGroup;
 import org.jbpm.process.core.Context;
 import org.jbpm.process.core.ContextContainer;
 import org.jbpm.process.core.context.exception.ExceptionScope;
@@ -36,6 +42,7 @@ import org.jbpm.process.core.datatype.DataType;
 import org.jbpm.process.core.impl.DataTransformerRegistry;
 import org.jbpm.process.instance.ContextInstance;
 import org.jbpm.process.instance.ContextInstanceContainer;
+import org.jbpm.process.instance.ProcessInstance;
 import org.jbpm.process.instance.context.KogitoProcessContext;
 import org.jbpm.process.instance.context.exception.ExceptionScopeInstance;
 import org.jbpm.process.instance.context.variable.VariableScopeInstance;
@@ -49,19 +56,21 @@ import org.jbpm.workflow.core.node.Transformation;
 import org.jbpm.workflow.instance.WorkflowRuntimeException;
 import org.jbpm.workflow.instance.impl.MVELProcessHelper;
 import org.jbpm.workflow.instance.impl.NodeInstanceResolverFactory;
+import org.kie.api.runtime.KieRuntime;
+import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle;
 import org.kie.dmn.api.core.DMNContext;
 import org.kie.dmn.api.core.DMNMessage.Severity;
 import org.kie.dmn.api.core.DMNResult;
 import org.kie.dmn.api.core.DMNRuntime;
 import org.kie.dmn.core.impl.DMNRuntimeImpl;
+import org.kie.internal.runtime.StatefulKnowledgeSession;
 import org.kie.kogito.decision.DecisionModel;
 import org.kie.kogito.dmn.DmnDecisionModel;
-import org.kie.kogito.internal.runtime.KieRuntime;
-import org.kie.kogito.internal.runtime.KieSession;
 import org.kie.kogito.internal.runtime.process.DataTransformer;
 import org.kie.kogito.internal.runtime.process.EventListener;
 import org.kie.kogito.internal.runtime.process.NodeInstance;
-import org.kie.kogito.internal.runtime.rule.FactHandle;
+import org.kie.kogito.internal.runtime.process.WorkflowProcessInstance;
 import org.kie.kogito.rules.RuleUnitData;
 import org.kie.kogito.rules.RuleUnitInstance;
 import org.mvel2.integration.impl.MapVariableResolverFactory;
@@ -124,46 +133,45 @@ public class RuleSetNodeInstance extends StateBasedNodeInstance implements Event
                 processOutputs(dmnResult.getContext().getAll());
                 triggerCompleted();
             } else if (ruleType.isRuleFlowGroup()) {
-                throw new UnsupportedOperationException("RuleFlowGroup has been deprecated. Use DMN or RuleUnits.");
-//                // first set rule flow group
-//                setRuleFlowGroup(resolveRuleFlowGroup(ruleType.getName()));
-//
-//                //proceed
-//                for (Entry<String, Object> entry : inputs.entrySet()) {
-//                    if (FIRE_RULE_LIMIT_PARAMETER.equals(entry.getKey())) {
-//                        // don't put control parameter for fire limit into working memory
-//                        continue;
-//                    }
-//
-//                    String inputKey = getRuleFlowGroup() + "_" + getProcessInstance().getId() + "_" + entry.getKey();
-//
-//                    factHandles.put(inputKey, kruntime.insert(entry.getValue()));
-//                }
-//
-//                if (actAsWaitState()) {
-//                    addRuleSetListener();
-//                    ((KogitoInternalAgenda) kruntime.getAgenda())
-//                            .activateRuleFlowGroup(getRuleFlowGroup(), getProcessInstance().getId(), getUniqueId());
-//                } else {
-//                    int fireLimit = DEFAULT_FIRE_RULE_LIMIT;
-//                    WorkflowProcessInstance processInstance = getProcessInstance();
-//
-//                    if (inputs.containsKey(FIRE_RULE_LIMIT_PARAMETER)) {
-//                        fireLimit = Integer.parseInt(inputs.get(FIRE_RULE_LIMIT_PARAMETER).toString());
-//                    }
-//                    ((KogitoInternalAgenda) kruntime.getAgenda())
-//                            .activateRuleFlowGroup(getRuleFlowGroup(), processInstance.getId(), getUniqueId());
-//
-//                    int fired = ((KieSession) kruntime).fireAllRules(processInstance.getAgendaFilter(), fireLimit);
-//                    if (fired == fireLimit) {
-//                        throw new RuntimeException("Fire rule limit reached " + fireLimit + ", limit can be set via system property " + FIRE_RULE_LIMIT_PROPERTY
-//                                                           + " or via data input of business rule task named " + FIRE_RULE_LIMIT_PARAMETER);
-//                    }
-//
-//                    removeEventListeners();
-//                    retractFacts(kruntime);
-//                    triggerCompleted();
-//                }
+                org.kie.api.runtime.KieRuntime kruntime = getRuleSetNode().getKieRuntime().get();
+
+//                throw new UnsupportedOperationException("RuleFlowGroup has been deprecated. Use DMN or RuleUnits.");
+                // first set rule flow group
+                setRuleFlowGroup(resolveRuleFlowGroup(ruleType.getName()));
+
+                //proceed
+                for (Entry<String, Object> entry : inputs.entrySet()) {
+                    if (FIRE_RULE_LIMIT_PARAMETER.equals(entry.getKey())) {
+                        // don't put control parameter for fire limit into working memory
+                        continue;
+                    }
+
+                    String inputKey = getRuleFlowGroup() + "_" + getProcessInstance().getId() + "_" + entry.getKey();
+
+                    factHandles.put(inputKey, kruntime.insert(entry.getValue()));
+                }
+
+                if (actAsWaitState()) {
+                    addRuleSetListener();
+                    activateRuleFlowGroup(kruntime);
+                } else {
+                    int fireLimit = DEFAULT_FIRE_RULE_LIMIT;
+                    ProcessInstance processInstance = getProcessInstance();
+
+                    if (inputs.containsKey(FIRE_RULE_LIMIT_PARAMETER)) {
+                        fireLimit = Integer.parseInt(inputs.get(FIRE_RULE_LIMIT_PARAMETER).toString());
+                    }
+                    activateRuleFlowGroup(kruntime);
+                    int fired = ((KieSession) kruntime).fireAllRules(processInstance.getAgendaFilter(), fireLimit);
+                    if (fired == fireLimit) {
+                        throw new RuntimeException("Fire rule limit reached " + fireLimit + ", limit can be set via system property " + FIRE_RULE_LIMIT_PROPERTY
+                                                           + " or via data input of business rule task named " + FIRE_RULE_LIMIT_PARAMETER);
+                    }
+
+                    removeEventListeners();
+                    retractFacts(kruntime);
+                    triggerCompleted();
+                }
             } else if (ruleType.isRuleUnit()) {
                 RuleUnitFactory<RuleUnitData> factory = ruleSetNode.getRuleUnitFactory();
                 KogitoProcessContext context = new KogitoProcessContext(getProcessInstance().getKnowledgeRuntime());
@@ -179,6 +187,12 @@ public class RuleSetNodeInstance extends StateBasedNodeInstance implements Event
         } catch (Exception e) {
             handleException(e);
         }
+    }
+
+    private void activateRuleFlowGroup(org.kie.api.runtime.KieRuntime kruntime) {
+        DefaultAgenda internalAgenda = (DefaultAgenda) kruntime.getAgenda();
+        InternalRuleFlowGroup ruleFlowGroup = (InternalRuleFlowGroup) internalAgenda.getRuleFlowGroup(getRuleFlowGroup());
+        internalAgenda.activateRuleFlowGroup(ruleFlowGroup, getProcessInstance().getId(),  getUniqueId());
     }
 
     private void handleException(Throwable e) {
@@ -218,12 +232,12 @@ public class RuleSetNodeInstance extends StateBasedNodeInstance implements Event
     }
 
     private String getRuleSetEventType() {
-//        InternalKnowledgeRuntime kruntime = getProcessInstance().getKnowledgeRuntime();
-//        if (kruntime instanceof StatefulKnowledgeSessionImpl) {
-//            return "RuleFlowGroup_" + getRuleFlowGroup() + "_" + ((StatefulKnowledgeSession) kruntime).getIdentifier();
-//        } else {
+        InternalKnowledgeRuntime kruntime = (InternalKnowledgeRuntime) getRuleSetNode().getKieRuntime().get();
+        if (kruntime instanceof StatefulKnowledgeSessionImpl) {
+            return "RuleFlowGroup_" + getRuleFlowGroup() + "_" + ((StatefulKnowledgeSession) kruntime).getIdentifier();
+        } else {
             return "RuleFlowGroup_" + getRuleFlowGroup();
-//        }
+        }
     }
 
     private void addRuleSetListener() {
@@ -239,17 +253,17 @@ public class RuleSetNodeInstance extends StateBasedNodeInstance implements Event
     @Override
     public void cancel() {
         super.cancel();
-//        if (actAsWaitState()) {
-//            ((InternalAgenda) getProcessInstance().getKnowledgeRuntime().getAgenda()).deactivateRuleFlowGroup(getRuleFlowGroup());
-//        }
+        if (actAsWaitState()) {
+            ((InternalAgenda) getProcessInstance().getKnowledgeRuntime().getAgenda()).deactivateRuleFlowGroup(getRuleFlowGroup());
+        }
     }
 
     @Override
     public void signalEvent(String type, Object event) {
         if (getRuleSetEventType().equals(type)) {
             removeEventListeners();
-//            KieRuntime kruntime = Optional.ofNullable(getRuleSetNode().getKieRuntime()).orElse(() -> getProcessInstance().getKnowledgeRuntime()).get();
-//            retractFacts(kruntime);
+            KieRuntime kruntime = getRuleSetNode().getKieRuntime().get();
+            retractFacts(kruntime);
             triggerCompleted();
         }
     }
