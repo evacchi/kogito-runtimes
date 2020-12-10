@@ -51,7 +51,7 @@
 
         <dependency>
             <groupId>org.kie.kogito</groupId>
-            <artifactId>process-management-addon</artifactId>
+            <artifactId>process-management-springboot-addon</artifactId>
         </dependency>
 
         <dependency>
@@ -60,7 +60,7 @@
             <version>${version.infinispan.starter}</version>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -82,14 +82,16 @@
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>json-schema-validator</artifactId>
+            <!-- Manually override to 3.3.0 because Spring boot uses rest-assured-common internally -->
+            <version>@version.io.restassured.springboot@</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>@version.io.restassured.springboot@
-            </version> <!-- Manually override to 3.3.0 because Spring boot uses rest-assured-common internally -->
+            <!-- Manually override to 3.3.0 because Spring boot uses rest-assured-common internally -->
+            <version>@version.io.restassured.springboot@</version>
             <scope>test</scope>
         </dependency>
 
@@ -144,22 +146,6 @@
                     <name>persistence</name>
                 </property>
             </activation>
-            <dependencyManagement>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.infinispan</groupId>
-                        <artifactId>infinispan-bom</artifactId>
-                        <version>${infinispan.version}</version>
-                        <type>pom</type>
-                        <scope>import</scope>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.infinispan</groupId>
-                        <artifactId>infinispan-spring-boot-starter</artifactId>
-                        <version>${version.infinispan.starter}</version>
-                    </dependency>
-                </dependencies>
-            </dependencyManagement>
             <dependencies>
                 <dependency>
                     <groupId>org.infinispan</groupId>
