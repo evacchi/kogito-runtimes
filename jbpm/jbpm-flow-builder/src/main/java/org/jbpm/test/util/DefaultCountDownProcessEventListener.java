@@ -39,14 +39,15 @@ public class DefaultCountDownProcessEventListener extends DefaultProcessEventLis
     }
 
     public boolean waitTillCompleted() {
-        try {
-            latch.await();
-            return true;
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            logger.debug("Interrputed thread while waiting for all triggers");
-            return false;
-        }
+//        try {
+//            latch.await();
+//            return true;
+//        } catch (InterruptedException e) {
+//            Thread.currentThread().interrupt();
+//            logger.debug("Interrputed thread while waiting for all triggers");
+//            return false;
+//        }
+       return waitTillCompleted(1000);
     }
 
     public boolean waitTillCompleted(long timeOut) {

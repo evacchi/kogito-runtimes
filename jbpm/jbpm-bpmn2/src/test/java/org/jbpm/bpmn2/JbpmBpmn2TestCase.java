@@ -132,29 +132,7 @@ public abstract class JbpmBpmn2TestCase {
     
     protected KieBase createKnowledgeBaseFromResources(Resource... process)
             throws Exception {
-
-        KieServices ks = KieServices.Factory.get();
-        KieRepository kr = ks.getRepository();
-        if (process.length > 0) {
-            KieFileSystem kfs = ks.newKieFileSystem();
-
-            for (Resource p : process) {
-                kfs.write(p);
-            }
-
-            KieBuilder kb = ks.newKieBuilder(kfs);
-
-            kb.buildAll(); // kieModule is automatically deployed to KieRepository
-                           // if successfully built.
-
-            if (kb.getResults().hasMessages(Level.ERROR)) {
-                throw new RuntimeException("Build Errors:\n"
-                        + kb.getResults().toString());
-            }
-        }
-
-        KieContainer kContainer = ks.newKieContainer(kr.getDefaultReleaseId());
-        return kContainer.getKieBase();
+        return new TestKieBase(process);
     }
     
     protected KieBase createKnowledgeBaseFromDisc(String process) throws Exception {
@@ -214,7 +192,9 @@ public abstract class JbpmBpmn2TestCase {
 
     protected StatefulKnowledgeSession createKnowledgeSession(KieBase kbase)
             throws Exception {
-        return createKnowledgeSession(kbase, null, null);
+        return (StatefulKnowledgeSession) kbase.newKieSession();
+
+//        return createKnowledgeSession(kbase, null, null);
     }
 
     protected StatefulKnowledgeSession createKnowledgeSession(KieBase kbase,
