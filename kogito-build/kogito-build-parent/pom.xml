@@ -251,11 +251,13 @@
         <version>${version.com.thoughtworks.xstream}</version>
       </dependency>
 
-      <dependency>
-        <groupId>com.google.protobuf</groupId>
-        <artifactId>protobuf-java</artifactId>
-        <version>${version.com.google.protobuf}</version>
-      </dependency>
+<!--      <dependency>-->
+<!--        <groupId>com.google.protobuf</groupId>-->
+<!--        <artifactId>protobuf-java</artifactId>-->
+<!--        <version>${version.com.google.protobuf}</version>-->
+<!--      </dependency>-->
+
+<!--      mongodb-persistence-addon-->
       <dependency>
         <groupId>com.google.protobuf</groupId>
         <artifactId>protobuf-java-util</artifactId>
@@ -282,56 +284,56 @@
       </dependency>
 
       <!-- marshalling -->
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-core</artifactId>
-        <version>${version.com.fasterxml.jackson}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>${version.com.fasterxml.jackson}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-annotations</artifactId>
-        <version>${version.com.fasterxml.jackson}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.datatype</groupId>
-        <artifactId>jackson-datatype-jsr310</artifactId>
-        <version>${version.com.fasterxml.jackson}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.dataformat</groupId>
-        <artifactId>jackson-dataformat-yaml</artifactId>
-        <version>${version.com.fasterxml.jackson}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.datatype</groupId>
-        <artifactId>jackson-datatype-jdk8</artifactId>
-        <version>${version.com.fasterxml.jackson}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.module</groupId>
-        <artifactId>jackson-module-parameter-names</artifactId>
-        <version>${version.com.fasterxml.jackson}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.jaxrs</groupId>
-        <artifactId>jackson-jaxrs-json-provider</artifactId>
-        <version>${version.com.fasterxml.jackson}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.jaxrs</groupId>
-        <artifactId>jackson-jaxrs-base</artifactId>
-        <version>${version.com.fasterxml.jackson}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.module</groupId>
-        <artifactId>jackson-module-jaxb-annotations</artifactId>
-        <version>${version.com.fasterxml.jackson}</version>
-      </dependency>
+<!--      <dependency>-->
+<!--        <groupId>com.fasterxml.jackson.core</groupId>-->
+<!--        <artifactId>jackson-core</artifactId>-->
+<!--        <version>${version.com.fasterxml.jackson}</version>-->
+<!--      </dependency>-->
+<!--      <dependency>-->
+<!--        <groupId>com.fasterxml.jackson.core</groupId>-->
+<!--        <artifactId>jackson-databind</artifactId>-->
+<!--        <version>${version.com.fasterxml.jackson}</version>-->
+<!--      </dependency>-->
+<!--      <dependency>-->
+<!--        <groupId>com.fasterxml.jackson.core</groupId>-->
+<!--        <artifactId>jackson-annotations</artifactId>-->
+<!--        <version>${version.com.fasterxml.jackson}</version>-->
+<!--      </dependency>-->
+<!--      <dependency>-->
+<!--        <groupId>com.fasterxml.jackson.datatype</groupId>-->
+<!--        <artifactId>jackson-datatype-jsr310</artifactId>-->
+<!--        <version>${version.com.fasterxml.jackson}</version>-->
+<!--      </dependency>-->
+<!--      <dependency>-->
+<!--        <groupId>com.fasterxml.jackson.dataformat</groupId>-->
+<!--        <artifactId>jackson-dataformat-yaml</artifactId>-->
+<!--        <version>${version.com.fasterxml.jackson}</version>-->
+<!--      </dependency>-->
+<!--      <dependency>-->
+<!--        <groupId>com.fasterxml.jackson.datatype</groupId>-->
+<!--        <artifactId>jackson-datatype-jdk8</artifactId>-->
+<!--        <version>${version.com.fasterxml.jackson}</version>-->
+<!--      </dependency>-->
+<!--      <dependency>-->
+<!--        <groupId>com.fasterxml.jackson.module</groupId>-->
+<!--        <artifactId>jackson-module-parameter-names</artifactId>-->
+<!--        <version>${version.com.fasterxml.jackson}</version>-->
+<!--      </dependency>-->
+<!--      <dependency>-->
+<!--        <groupId>com.fasterxml.jackson.jaxrs</groupId>-->
+<!--        <artifactId>jackson-jaxrs-json-provider</artifactId>-->
+<!--        <version>${version.com.fasterxml.jackson}</version>-->
+<!--      </dependency>-->
+<!--      <dependency>-->
+<!--        <groupId>com.fasterxml.jackson.jaxrs</groupId>-->
+<!--        <artifactId>jackson-jaxrs-base</artifactId>-->
+<!--        <version>${version.com.fasterxml.jackson}</version>-->
+<!--      </dependency>-->
+<!--      <dependency>-->
+<!--        <groupId>com.fasterxml.jackson.module</groupId>-->
+<!--        <artifactId>jackson-module-jaxb-annotations</artifactId>-->
+<!--        <version>${version.com.fasterxml.jackson}</version>-->
+<!--      </dependency>-->
       <dependency>
         <groupId>com.jayway.jsonpath</groupId>
         <artifactId>json-path</artifactId>
@@ -359,21 +361,21 @@
         <version>${version.io.fabric8.kubernetes-client}</version>
       </dependency>
       <!-- metrics - monitoring -->
-      <dependency>
-        <groupId>io.micrometer</groupId>
-        <artifactId>micrometer-core</artifactId>
-        <version>${version.io.micrometer}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.micrometer</groupId>
-        <artifactId>micrometer-registry-prometheus</artifactId>
-        <version>${version.io.micrometer}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.micrometer</groupId>
-        <artifactId>micrometer-registry-elastic</artifactId>
-        <version>${version.io.micrometer}</version>
-      </dependency>
+<!--      <dependency>-->
+<!--        <groupId>io.micrometer</groupId>-->
+<!--        <artifactId>micrometer-core</artifactId>-->
+<!--        <version>${version.io.micrometer}</version>-->
+<!--      </dependency>-->
+<!--      <dependency>-->
+<!--        <groupId>io.micrometer</groupId>-->
+<!--        <artifactId>micrometer-registry-prometheus</artifactId>-->
+<!--        <version>${version.io.micrometer}</version>-->
+<!--      </dependency>-->
+<!--      <dependency>-->
+<!--        <groupId>io.micrometer</groupId>-->
+<!--        <artifactId>micrometer-registry-elastic</artifactId>-->
+<!--        <version>${version.io.micrometer}</version>-->
+<!--      </dependency>-->
 
       <dependency>
         <groupId>org.jboss.spec.javax.ws.rs</groupId>
@@ -590,26 +592,26 @@
       </dependency>
 
       <!-- infinispan -->
-      <dependency>
-        <groupId>org.infinispan</groupId>
-        <artifactId>infinispan-remote-query-client</artifactId>
-        <version>${version.org.infinispan}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.infinispan</groupId>
-        <artifactId>infinispan-client-hotrod</artifactId>
-        <version>${version.org.infinispan}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.infinispan</groupId>
-        <artifactId>infinispan-query-dsl</artifactId>
-        <version>${version.org.infinispan}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.infinispan.protostream</groupId>
-        <artifactId>protostream</artifactId>
-        <version>${version.org.infinispan.protostream}</version>
-      </dependency>
+<!--      <dependency>-->
+<!--        <groupId>org.infinispan</groupId>-->
+<!--        <artifactId>infinispan-remote-query-client</artifactId>-->
+<!--        <version>${version.org.infinispan}</version>-->
+<!--      </dependency>-->
+<!--      <dependency>-->
+<!--        <groupId>org.infinispan</groupId>-->
+<!--        <artifactId>infinispan-client-hotrod</artifactId>-->
+<!--        <version>${version.org.infinispan}</version>-->
+<!--      </dependency>-->
+<!--      <dependency>-->
+<!--        <groupId>org.infinispan</groupId>-->
+<!--        <artifactId>infinispan-query-dsl</artifactId>-->
+<!--        <version>${version.org.infinispan}</version>-->
+<!--      </dependency>-->
+<!--      <dependency>-->
+<!--        <groupId>org.infinispan.protostream</groupId>-->
+<!--        <artifactId>protostream</artifactId>-->
+<!--        <version>${version.org.infinispan.protostream}</version>-->
+<!--      </dependency>-->
 
       <!-- PostgreSQL -->
       <dependency>
@@ -761,7 +763,8 @@
       <dependency>
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-bom</artifactId>
-        <version>{version.io.quarkus}</version>
+        <version>${version.io.quarkus}</version>
+        <type>pom</type>
         <scope>import</scope>
       </dependency>
 

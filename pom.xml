@@ -123,7 +123,7 @@
     <module>api</module>
     <module>drools</module>
     <module>jbpm</module>
-    <module>kogito-cloud-services</module>
+<!--    <module>kogito-cloud-services</module>-->
     <module>kogito-codegen-modules</module>
     <module>kogito-springboot</module>
     <module>kogito-maven-plugin</module>
