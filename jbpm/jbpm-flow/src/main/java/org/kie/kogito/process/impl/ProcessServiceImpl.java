@@ -30,6 +30,9 @@ import org.kie.kogito.Application;
 import org.kie.kogito.MapOutput;
 import org.kie.kogito.MappableToModel;
 import org.kie.kogito.Model;
+import org.kie.kogito.incubation.process.workitem.WorkItemId;
+import org.kie.kogito.incubation.process.workitem.WorkItemService;
+import org.kie.kogito.incubation.process.workitem.impl.WorkItemServiceImpl;
 import org.kie.kogito.process.Process;
 import org.kie.kogito.process.ProcessConfig;
 import org.kie.kogito.process.ProcessInstance;
@@ -46,9 +49,11 @@ import org.kie.kogito.services.uow.UnitOfWorkExecutor;
 public class ProcessServiceImpl implements ProcessService {
 
     private final Application application;
+    private final WorkItemService workItemService;
 
     public ProcessServiceImpl(Application application) {
         this.application = application;
+        this.workItemService = new WorkItemServiceImpl(application);
     }
 
     @Override
@@ -166,11 +171,17 @@ public class ProcessServiceImpl implements ProcessService {
             List<String> groups,
             MapOutput model,
             Function<Map<String, Object>, R> mapper) {
+        /*
+                WorkItemId workItemId = new WorkItemId(process.id(), id, taskId);
+        return workItemService.save(workItemId, model, Policies.of(user, groups))
+                .map(mapper::apply);
+
+         */
         return UnitOfWorkExecutor.executeInUnitOfWork(application.unitOfWorkManager(), () -> process
                 .instances()
                 .findById(id)
                 .map(pi -> pi.updateWorkItem(taskId, wi -> HumanTaskHelper.updateContent(wi, model), Policies.of(user, groups))))
-                .map(mapper::apply);
+                .map(mapper);
     }
 
     @Override
@@ -201,29 +212,21 @@ public class ProcessServiceImpl implements ProcessService {
             String user,
             List<String> groups,
             Function<WorkItem, R> mapper) {
-        return process.instances()
-                .findById(id, ProcessInstanceReadMode.READ_ONLY)
-                .map(pi -> pi.workItem(taskId, Policies.of(user, groups)))
-                .map(mapper::apply);
+        WorkItemId workItemId = new WorkItemId(process.id(), id, taskId);
+        return workItemService.get(workItemId, Policies.of(user, groups))
+                .map(mapper);
     }
 
     @Override
     public <T extends MappableToModel<R>, R> Optional<R> abortTask(Process<T> process,
-            String id,
+            String instanceId,
             String taskId,
             String phase,
             String user,
             List<String> groups) {
-        return UnitOfWorkExecutor.executeInUnitOfWork(
-                application.unitOfWorkManager(), () -> process
-                        .instances()
-                        .findById(id)
-                        .map(pi -> {
-                            pi.transitionWorkItem(taskId,
-                                    HumanTaskTransition.withoutModel(phase,
-                                            Policies.of(user, groups)));
-                            return pi.variables().toModel();
-                        }));
+        WorkItemId workItemId = new WorkItemId(process.id(), instanceId, taskId);
+        HumanTaskTransition transition = HumanTaskTransition.withoutModel(phase, Policies.of(user, groups));
+        return workItemService.abort(workItemId, transition).map(m -> (R)m);
     }
 
     @Override
