@@ -23,6 +23,7 @@ import java.util.UUID;
 
 import org.jbpm.workflow.instance.node.WorkItemNodeInstance;
 import org.kie.kogito.MapOutput;
+import org.kie.kogito.Model;
 import org.kie.kogito.internal.process.runtime.KogitoNodeInstance;
 import org.kie.kogito.internal.process.runtime.KogitoWorkItem;
 import org.kie.kogito.internal.process.runtime.WorkItemNotFoundException;
@@ -88,10 +89,10 @@ public class HumanTaskHelper {
         return setAttachmentName(fillTaskMetaEntity(attachment, attachmentInfo.getUri()), attachmentInfo);
     }
 
-    public static Map<String, Object> updateContent(KogitoWorkItem item, MapOutput model) {
+    public static Model updateContent(KogitoWorkItem item, MapOutput model) {
         HumanTaskWorkItemImpl humanTask = asHumanTask(item);
         humanTask.setResults(model.toMap());
-        return humanTask.getResults();
+        return humanTask.results();
     }
 
     public static boolean deleteComment(KogitoWorkItem item, Object id, String user) {

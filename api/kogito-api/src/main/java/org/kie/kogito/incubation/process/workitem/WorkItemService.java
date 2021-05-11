@@ -6,14 +6,15 @@ import org.kie.kogito.process.WorkItem;
 import org.kie.kogito.process.workitem.Policy;
 import org.kie.kogito.process.workitem.Transition;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface WorkItemService {
     /*all*/
-    void get();
+    Optional<List<WorkItem>> get(String processId, String processInstanceId, Policy<?>... policies);
     Optional<WorkItem> get(WorkItemId workItemId, Policy<?>... policies);
-    void transition(WorkItemId workItemId);
+    Optional<Model> transition(WorkItemId workItemId, Transition<?> transition);
     Optional<Model> abort(WorkItemId workItemId, Transition<?> transition);
-    void complete(WorkItemId workItemId);
+    Optional<Model> complete(WorkItemId workItemId, Transition<?> transition);
     Optional<Model> save(WorkItemId workItemId, MapOutput model, Policy<?>... policies);
 }

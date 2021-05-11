@@ -26,10 +26,7 @@ import java.util.stream.Collectors;
 import org.jbpm.process.instance.impl.humantask.HumanTaskHelper;
 import org.jbpm.process.instance.impl.humantask.HumanTaskTransition;
 import org.jbpm.util.JsonSchemaUtil;
-import org.kie.kogito.Application;
-import org.kie.kogito.MapOutput;
-import org.kie.kogito.MappableToModel;
-import org.kie.kogito.Model;
+import org.kie.kogito.*;
 import org.kie.kogito.incubation.process.workitem.WorkItemId;
 import org.kie.kogito.incubation.process.workitem.WorkItemService;
 import org.kie.kogito.incubation.process.workitem.impl.WorkItemServiceImpl;
@@ -116,9 +113,7 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     public <T extends Model> Optional<List<WorkItem>> getTasks(Process<T> process, String id, String user, List<String> groups) {
-        return process.instances()
-                .findById(id, ProcessInstanceReadMode.READ_ONLY)
-                .map(pi -> pi.workItems(Policies.of(user, groups)));
+        return workItemService.get(process.id(), id, Policies.of(user, groups));
     }
 
     @Override
@@ -150,17 +145,10 @@ public class ProcessServiceImpl implements ProcessService {
             String user,
             List<String> groups,
             MapOutput taskModel) {
-        return UnitOfWorkExecutor.executeInUnitOfWork(application.unitOfWorkManager(), () -> process
-                .instances()
-                .findById(id)
-                .map(pi -> {
-                    pi.transitionWorkItem(
-                            taskId,
-                            HumanTaskTransition.withModel(phase, taskModel, Policies.of(user, groups)));
-                    return pi;
-                })
-                .map(ProcessInstance::variables)
-                .map(MappableToModel::toModel));
+        WorkItemId workItemId = new WorkItemId(process.id(), id, taskId);
+        HumanTaskTransition transition = HumanTaskTransition.withModel(phase, taskModel, Policies.of(user, groups));
+        return workItemService.complete(workItemId, transition)
+                .map(m -> ((T)m).toModel());
     }
 
     @Override
@@ -171,17 +159,10 @@ public class ProcessServiceImpl implements ProcessService {
             List<String> groups,
             MapOutput model,
             Function<Map<String, Object>, R> mapper) {
-        /*
-                WorkItemId workItemId = new WorkItemId(process.id(), id, taskId);
+        WorkItemId workItemId = new WorkItemId(process.id(), id, taskId);
         return workItemService.save(workItemId, model, Policies.of(user, groups))
-                .map(mapper::apply);
+                .map(m -> mapper.apply(m.toMap()));
 
-         */
-        return UnitOfWorkExecutor.executeInUnitOfWork(application.unitOfWorkManager(), () -> process
-                .instances()
-                .findById(id)
-                .map(pi -> pi.updateWorkItem(taskId, wi -> HumanTaskHelper.updateContent(wi, model), Policies.of(user, groups))))
-                .map(mapper);
     }
 
     @Override
@@ -193,16 +174,10 @@ public class ProcessServiceImpl implements ProcessService {
             String user,
             List<String> groups,
             MapOutput model) {
-        return UnitOfWorkExecutor.executeInUnitOfWork(
-                application.unitOfWorkManager(), () -> process
-                        .instances()
-                        .findById(id)
-                        .map(pi -> {
-                            pi.transitionWorkItem(
-                                    taskId,
-                                    HumanTaskTransition.withModel(phase, model, Policies.of(user, groups)));
-                            return pi.variables().toModel();
-                        }));
+        WorkItemId workItemId = new WorkItemId(process.id(), id, taskId);
+        HumanTaskTransition transition = HumanTaskTransition.withModel(phase, model, Policies.of(user, groups));
+        return workItemService.transition(workItemId, transition)
+                .map(m -> (R) m);
     }
 
     @Override

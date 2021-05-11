@@ -16,8 +16,10 @@
 package org.kie.kogito.internal.process.runtime;
 
 import java.util.Date;
+import java.util.Map;
 
 import org.kie.api.runtime.process.WorkItem;
+import org.kie.kogito.Model;
 import org.kie.kogito.process.workitem.Policy;
 
 public interface KogitoWorkItem extends WorkItem {
@@ -79,6 +81,12 @@ public interface KogitoWorkItem extends WorkItem {
      * @return the related process instance
      */
     KogitoProcessInstance getProcessInstance();
+
+    @Override
+    @Deprecated
+    Map<String, Object> getResults();
+
+    Model results();
 
     /**
      * Enforces given policies on this work item. It must false in case of any policy

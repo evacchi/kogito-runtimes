@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.kie.kogito.MapInput;
+import org.kie.kogito.Model;
 import org.kie.kogito.internal.process.runtime.KogitoNodeInstance;
 import org.kie.kogito.internal.process.runtime.KogitoProcessInstance;
 import org.kie.kogito.process.workitems.InternalKogitoWorkItem;
@@ -126,6 +128,28 @@ public class KogitoWorkItemImpl implements InternalKogitoWorkItem, Serializable 
     @Override
     public Map<String, Object> getResults() {
         return results;
+    }
+
+    @Override
+    public Model results() {
+        Map<String, Object> results = new HashMap<>(this.results);
+        return new Model() {
+            @Override
+            public void update(Map<String, Object> params) {
+                results.putAll(params);
+            }
+
+            @Override
+            public MapInput fromMap(Map<String, Object> params) {
+                results.putAll(params);
+                return this;
+            }
+
+            @Override
+            public Map<String, Object> toMap() {
+                return results;
+            }
+        };
     }
 
     @Override
