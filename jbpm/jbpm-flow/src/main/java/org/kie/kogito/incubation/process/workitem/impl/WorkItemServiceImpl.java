@@ -27,12 +27,10 @@ public class WorkItemServiceImpl implements WorkItemService {
 
     @Override
     public Optional<List<WorkItem>> get(String processId, String processInstanceId, Policy<?>... policies) {
-        return UnitOfWorkExecutor.executeInUnitOfWork(
-                application.unitOfWorkManager(), () -> processes
-                        .processById(processId)
-                        .instances()
-                        .findById(processInstanceId, ProcessInstanceReadMode.READ_ONLY)
-                        .map(pi -> pi.workItems(policies)));
+        return processes.processById(processId)
+                .instances()
+                .findById(processInstanceId, ProcessInstanceReadMode.READ_ONLY)
+                .map(pi -> pi.workItems(policies));
 
     }
 
