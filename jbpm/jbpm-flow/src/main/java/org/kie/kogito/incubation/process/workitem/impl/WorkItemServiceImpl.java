@@ -1,5 +1,8 @@
 package org.kie.kogito.incubation.process.workitem.impl;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.jbpm.process.instance.impl.humantask.HumanTaskHelper;
 import org.kie.kogito.Application;
 import org.kie.kogito.MapOutput;
@@ -13,9 +16,6 @@ import org.kie.kogito.process.workitem.Policy;
 import org.kie.kogito.process.workitem.Transition;
 import org.kie.kogito.services.uow.UnitOfWorkExecutor;
 
-import java.util.List;
-import java.util.Optional;
-
 public class WorkItemServiceImpl implements WorkItemService {
     final Application application;
     private final Processes processes;
@@ -24,7 +24,6 @@ public class WorkItemServiceImpl implements WorkItemService {
         this.application = application;
         this.processes = application.get(Processes.class);
     }
-
 
     @Override
     public Optional<List<WorkItem>> get(String processId, String processInstanceId, Policy<?>... policies) {
@@ -47,46 +46,42 @@ public class WorkItemServiceImpl implements WorkItemService {
 
     public Optional<Model> transition(WorkItemId workItemId, Transition<?> transition) {
         return UnitOfWorkExecutor.executeInUnitOfWork(
-                application.unitOfWorkManager(), () ->
-                        processes.processById(workItemId.processInstanceId().processId().processId())
-                                .instances()
-                                .findById(workItemId.processInstanceId().processInstanceId())
-                                .map(pi -> {
-                                    pi.transitionWorkItem(workItemId.workItemId(), transition);
-                                    return pi.variables();
-                                }));
-
-    }
-
-    @Override
-    public Optional<Model> abort(WorkItemId workItemId, Transition<?> transition) {
-        return UnitOfWorkExecutor.executeInUnitOfWork(application.unitOfWorkManager(), () ->
-                        processes.processById(workItemId.processInstanceId().processId().processId())
-                                .instances()
-                                .findById(workItemId.processInstanceId().processInstanceId())
-                                .map(pi -> {
-                                    pi.transitionWorkItem(workItemId.workItemId(), transition);
-                                    return pi.variables();
-                                }));
-    }
-
-    @Override
-    public Optional<Model> complete(WorkItemId workItemId, Transition<?> transition) {
-        return UnitOfWorkExecutor.executeInUnitOfWork(application.unitOfWorkManager(), () ->
-                processes.processById(workItemId.processInstanceId().processId().processId())
+                application.unitOfWorkManager(), () -> processes.processById(workItemId.processInstanceId().processId().processId())
                         .instances()
                         .findById(workItemId.processInstanceId().processInstanceId())
                         .map(pi -> {
                             pi.transitionWorkItem(workItemId.workItemId(), transition);
                             return pi.variables();
                         }));
+
+    }
+
+    @Override
+    public Optional<Model> abort(WorkItemId workItemId, Transition<?> transition) {
+        return UnitOfWorkExecutor.executeInUnitOfWork(application.unitOfWorkManager(), () -> processes.processById(workItemId.processInstanceId().processId().processId())
+                .instances()
+                .findById(workItemId.processInstanceId().processInstanceId())
+                .map(pi -> {
+                    pi.transitionWorkItem(workItemId.workItemId(), transition);
+                    return pi.variables();
+                }));
+    }
+
+    @Override
+    public Optional<Model> complete(WorkItemId workItemId, Transition<?> transition) {
+        return UnitOfWorkExecutor.executeInUnitOfWork(application.unitOfWorkManager(), () -> processes.processById(workItemId.processInstanceId().processId().processId())
+                .instances()
+                .findById(workItemId.processInstanceId().processInstanceId())
+                .map(pi -> {
+                    pi.transitionWorkItem(workItemId.workItemId(), transition);
+                    return pi.variables();
+                }));
     }
 
     @Override
     public Optional<Model> save(WorkItemId workItemId, MapOutput model, Policy<?>... policies) {
         return UnitOfWorkExecutor.executeInUnitOfWork(
-                application.unitOfWorkManager(), () ->
-                        processes.processById(workItemId.processInstanceId().processId().processId())
+                application.unitOfWorkManager(), () -> processes.processById(workItemId.processInstanceId().processId().processId())
                         .instances()
                         .findById(workItemId.processInstanceId().processInstanceId())
                         .map(pi -> (Model) pi.updateWorkItem(workItemId.workItemId(), wi -> HumanTaskHelper.updateContent(wi, model), policies)));

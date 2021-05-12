@@ -148,7 +148,7 @@ public class ProcessServiceImpl implements ProcessService {
         WorkItemId workItemId = new WorkItemId(process.id(), id, taskId);
         HumanTaskTransition transition = HumanTaskTransition.withModel(phase, taskModel, Policies.of(user, groups));
         return workItemService.complete(workItemId, transition)
-                .map(m -> ((T)m).toModel());
+                .map(m -> ((T) m).toModel());
     }
 
     @Override
@@ -201,7 +201,7 @@ public class ProcessServiceImpl implements ProcessService {
             List<String> groups) {
         WorkItemId workItemId = new WorkItemId(process.id(), instanceId, taskId);
         HumanTaskTransition transition = HumanTaskTransition.withoutModel(phase, Policies.of(user, groups));
-        return workItemService.abort(workItemId, transition).map(m -> (R)m);
+        return workItemService.abort(workItemId, transition).map(m -> (R) m);
     }
 
     @Override
