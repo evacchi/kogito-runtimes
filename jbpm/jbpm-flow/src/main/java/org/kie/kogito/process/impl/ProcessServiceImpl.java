@@ -15,32 +15,23 @@
  */
 package org.kie.kogito.process.impl;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.jbpm.process.instance.impl.humantask.HumanTaskHelper;
 import org.jbpm.process.instance.impl.humantask.HumanTaskTransition;
 import org.jbpm.util.JsonSchemaUtil;
-import org.kie.kogito.*;
-import org.kie.kogito.incubation.process.workitem.WorkItemId;
-import org.kie.kogito.incubation.process.workitem.WorkItemService;
+import org.kie.kogito.Application;
+import org.kie.kogito.MapOutput;
+import org.kie.kogito.MappableToModel;
+import org.kie.kogito.Model;
 import org.kie.kogito.incubation.process.workitem.impl.WorkItemServiceImpl;
+import org.kie.kogito.incubation.processes.services.workitems.WorkItemService;
+import org.kie.kogito.incubation.processes.workitem.WorkItemId;
+import org.kie.kogito.process.*;
 import org.kie.kogito.process.Process;
-import org.kie.kogito.process.ProcessConfig;
-import org.kie.kogito.process.ProcessInstance;
-import org.kie.kogito.process.ProcessInstanceReadMode;
-import org.kie.kogito.process.ProcessService;
-import org.kie.kogito.process.WorkItem;
-import org.kie.kogito.process.workitem.Attachment;
-import org.kie.kogito.process.workitem.AttachmentInfo;
-import org.kie.kogito.process.workitem.Comment;
-import org.kie.kogito.process.workitem.HumanTaskWorkItem;
-import org.kie.kogito.process.workitem.Policies;
+import org.kie.kogito.process.workitem.*;
 import org.kie.kogito.services.uow.UnitOfWorkExecutor;
 
 public class ProcessServiceImpl implements ProcessService {
@@ -113,7 +104,9 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     public <T extends Model> Optional<List<WorkItem>> getTasks(Process<T> process, String id, String user, List<String> groups) {
-        return workItemService.get(process.id(), id, Policies.of(user, groups));
+        return process.instances()
+                .findById(id, ProcessInstanceReadMode.READ_ONLY)
+                .map(pi -> pi.workItems(Policies.of(user, groups)));
     }
 
     @Override
