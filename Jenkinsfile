@@ -34,6 +34,10 @@ pipeline {
                     checkoutRepo('kogito-examples')
                     checkoutRepo('kogito-examples', 'kogito-examples-persistence')
                     checkoutRepo('kogito-examples', 'kogito-examples-events')
+
+                    // remove pom.xml from parent overlapping workspace (it is not really used.)
+                    // Work-around an issue with Quarkus' resolver with our project layout 
+                    sh 'rm ./pom.xml'
                 }
             }
         }
